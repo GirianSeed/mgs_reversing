@@ -87,6 +87,7 @@
 #define PCX_M60_FLASH           0xc61c // GV_StrCode( "m60_flash" )
 #define PCX_JEEP_BONBORI_ADD    0xa7fc // GV_StrCode( "jeep_bonbori_add" )
 #define PCX_FIRE2               0x5b68 // GV_StrCode( "fire2" )
+#define PCX_GOURAUD             0x38a9 // GV_StrCode( "gouraud" )
 
 //-----------------------------------------------------------------------------
 // Model files (.kmd)
