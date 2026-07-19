@@ -350,7 +350,7 @@
 #define DEMO_BLACKSMOKE         { 0x002a, ? }                       // ???
 #define DEMO_URINATIONCIRCLE2   { 0x002b, NewDBloods_800D5B70 }     // okajima/d_bloods.c
 #define DEMO_SIGHT              { 0x002c, ? }                       // thing/sight.c (PC-ONLY)
-#define DEMO_NINJASWORD         { 0x002d, NewKatana_800C5660 }      // enemy/katana.c
+#define DEMO_NINJASWORD         { 0x002d, NewDemoKatana }           // enemy/katana.c
 #define DEMO_SUBMARINEROOM      { 0x002e, NewSubRoom_800C815C }     // okajima/sub_room.c
 #define DEMO_BLACKSMOKE2        { 0x002f, AN_Smoke_800CE164 }       // ???
 #define DEMO_BLASTLINE          { 0x0030, ? }                       // okajima/blst_ln.c
@@ -440,7 +440,7 @@ extern NEWCHARA NewCamera_800D67F8;             /* enemy/camera.c               
 extern NEWCHARA NewCommander;                   /* enemy/command.c              */
 extern NEWCHARA NewDemoAsiato;                  /* enemy/demoasi.c              */
 extern NEWCHARA NewDemoKage;                    /* enemy/demokage.c             */
-extern NEWCHARA NewKatana_800C5660;             /* enemy/katana.c               */
+extern NEWCHARA NewDemoKatana;                  /* enemy/katana.c               */
 extern NEWCHARA NewKikenKun;                    /* enemy/kiken.c                */
 extern NEWCHARA NewEnemyMeryl_800D63A4;         /* enemy/meryl7.c               */
 extern NEWCHARA NewMovingObject;                /* enemy/object.c               */

@@ -2,57 +2,57 @@
 
 #include <stdio.h>
 #include "common.h"
+#include "strcode.h"
+#include "game/game.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "game/game.h"
 
 typedef struct _Work
 {
     GV_ACT   actor;
-    int      where;
+    int      map;
     DG_PRIM *prim;
     DG_TEX  *tex;
-    MATRIX  *pos;
-    SVECTOR  field_30[2];
-    int     *field_40;
-    int      field_44;
-    SVECTOR  field_48[8][4];
-    int      field_148;
-    int      field_14C;
+    MATRIX  *world;
+    SVECTOR  pos[2];      // start and end positions of the blade
+    int     *enable;      // 0 = off, 1 = short trail, 2 = long trail
+    int      enable_flag; // used for demo katana, always set to 1
+    SVECTOR  verts[8][4]; // 0 & 1 = current position (blue), 2 & 3 = old position (transparent black)
+    int      cur_index;
+    int      unused;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
-void s08c_katana_800C5040(Work *work)
+static void UpdateVerts(Work *work)
 {
-    int old_index, new_index;
+    int prev, next;
 
-    old_index = work->field_148;
-    work->field_148++;
-    if (work->field_148 >= 8)
+    prev = work->cur_index++;
+    if (work->cur_index >= 8)
     {
-        work->field_148 = 0;
+        work->cur_index = 0;
     }
-    new_index = work->field_148;
 
-    DG_SetPos(work->pos);
-    DG_PutVector(work->field_30, work->field_48[new_index], 2);
+    next = work->cur_index;
 
-    work->field_48[new_index][2] = work->field_48[old_index][0];
-    work->field_48[new_index][3] = work->field_48[old_index][1];
+    DG_SetPos(work->world);
+    DG_PutVector(work->pos, work->verts[next], 2);
+
+    work->verts[next][2] = work->verts[prev][0];
+    work->verts[next][3] = work->verts[prev][1];
 }
 
-void s08c_katana_800C5100(Work *work)
+static void ShadePacks(Work *work)
 {
-    int       i;
+    POLY_GT4 *packs;
     int       r, g, b;
+    int       i;
+    int       id;
+    POLY_GT4 *poly;
     int       r2, g2, b2;
-    int       idx;
-    POLY_GT4 *polys, *poly;
 
-    polys = work->prim->packs[GV_Clock];
+    packs = work->prim->packs[GV_Clock];
 
-    if (*work->field_40 == 2)
+    if (*work->enable == 2)
     {
         r = 55;
         g = 192;
@@ -67,12 +67,9 @@ void s08c_katana_800C5100(Work *work)
 
     for (i = 0; i < 8; i++)
     {
-        idx = work->field_148 - i;
-        if (idx < 0)
-        {
-            idx += 8;
-        }
-        poly = &polys[idx];
+        id = work->cur_index - i;
+        if (id < 0) id += 8;
+        poly = &packs[id];
 
         r2 = MAX(r - i * 32, 0);
         g2 = MAX(g - i * 32, 0);
@@ -88,12 +85,14 @@ void s08c_katana_800C5100(Work *work)
     }
 }
 
-void KatanaAct_800C5210(Work *work)
+static void Act(Work *work)
 {
-    GM_CurrentMap = work->where;
-    s08c_katana_800C5040(work);
-    s08c_katana_800C5100(work);
-    if (*work->field_40 > 0)
+    GM_CurrentMap = work->map;
+
+    UpdateVerts(work);
+    ShadePacks(work);
+
+    if (*work->enable > 0)
     {
         DG_VisiblePrim(work->prim);
     }
@@ -103,120 +102,127 @@ void KatanaAct_800C5210(Work *work)
     }
 }
 
-void s08c_katana_800C5294(POLY_GT4 *poly, DG_TEX *tex, int abr, int r, int g, int b)
+static void InitPacks(POLY_GT4 *packs, DG_TEX *tex, int abr, int r, int g, int b)
 {
     int i;
-    int x, y, w, h;
-    int x2, y2, w2, h2;
 
-    for (i = 0; i < 8; i++, poly++)
+    for (i = 0; i < 8; i++)
     {
-        setPolyGT4(poly);
+        setPolyGT4(packs);
 
-        setRGB0(poly, r + 100, g + 100, b + 100);
-        setRGB1(poly, r + 100, g + 100, b + 100);
-        setRGB2(poly, r - 100, g - 100, b - 100);
-        setRGB3(poly, r - 100, g - 100, b - 100);
+        setRGB0(packs, r + 100, g + 100, b + 100);
+        setRGB1(packs, r + 100, g + 100, b + 100);
+        setRGB2(packs, r - 100, g - 100, b - 100);
+        setRGB3(packs, r - 100, g - 100, b - 100);
 
         if (abr < 4)
         {
-            setSemiTrans(poly, 1);
+            int x, y, w, h;
+
+            setSemiTrans(packs, 1);
+            x = tex->off_x;
+            w = tex->w;
+            y = tex->off_y;
+            h = tex->h;
+            setUVWH(packs, x, y, w, h);
+            packs->tpage = tex->tpage;
+            packs->clut = tex->clut;
+            packs->tpage = (packs->tpage & ~(3 << 5)) | (abr << 5);
+        }
+        else
+        {
+            int x, y, w, h;
 
             x = tex->off_x;
             w = tex->w;
             y = tex->off_y;
             h = tex->h;
-            setUVWH(poly, x, y, w, h);
-            poly->tpage = tex->tpage;
-            poly->clut = tex->clut;
+            setUVWH(packs, x, y, w, h);
+            packs->tpage = tex->tpage;
+            packs->clut = tex->clut;
+        }
 
-            poly->tpage = (poly->tpage & ~0x60) | (abr << 5);
-        }
-        else
-        {
-            x2 = tex->off_x;
-            w2 = tex->w;
-            y2 = tex->off_y;
-            h2 = tex->h;
-            setUVWH(poly, x2, y2, w2, h2);
-            poly->tpage = tex->tpage;
-            poly->clut = tex->clut;
-        }
+        packs++;
     }
 }
 
-int KatanaGetResources_800C53E4(Work *work, MATRIX *pos, SVECTOR *arg2, SVECTOR *arg3, int *arg4)
+static int GetResources(Work *work, MATRIX *world, SVECTOR *pos1, SVECTOR *pos2, int *enable)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    work->pos = pos;
-    work->field_30[0] = *arg2;
-    work->field_30[1] = *arg3;
-    work->field_40 = arg4;
-    work->prim = prim = GM_MakePrim(DG_PRIM_POLY_GT4, 8, (SVECTOR *)work->field_48, NULL);
-    if (prim != NULL)
+    work->world = world;
+    work->pos[0] = *pos1;
+    work->pos[1] = *pos2;
+    work->enable = enable;
+
+    work->prim = prim = GM_MakePrim(DG_PRIM_POLY_GT4, 8, (SVECTOR *)work->verts, NULL);
+    if (prim == NULL)
     {
-        prim->world = DG_ZeroMatrix;
-        work->tex = tex = DG_GetTexture(0x38A9);
-        if (tex != NULL)
-        {
-            s08c_katana_800C5294(prim->packs[0], tex, 1, 128, 128, 128);
-            s08c_katana_800C5294(prim->packs[1], tex, 1, 128, 128, 128);
-            work->field_14C = 0;
-            work->field_148 = 0;
-            work->where = GM_CurrentMap;
-            return 0;
-        }
+        return -1;
     }
-    return -1;
+
+    prim->world = DG_ZeroMatrix;
+
+    work->tex = tex = DG_GetTexture(PCX_GOURAUD);
+    if (tex == NULL)
+    {
+        return -1;
+    }
+
+    InitPacks(prim->packs[0], tex, 1, 128, 128, 128);
+    InitPacks(prim->packs[1], tex, 1, 128, 128, 128);
+
+    work->unused = 0;
+    work->cur_index = 0;
+
+    work->map = GM_CurrentMap;
+    return 0;
 }
 
-void KatanaDie_800C5564(Work *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void *NewKatana_800C55A0(MATRIX *pos, SVECTOR *svec1, SVECTOR *svec2, int *field_44)
+void *NewKatana(MATRIX *world, SVECTOR *svec1, SVECTOR *svec2, int *enable)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, KatanaAct_800C5210, KatanaDie_800C5564, "katana.c");
-        if (KatanaGetResources_800C53E4(work, pos, svec1, svec2, field_44) < 0)
+        GV_SetNamedActor(work, Act, Die, "katana.c");
+
+        if (GetResources(work, world, svec1, svec2, enable) < 0)
         {
             printf(" Katana Init Err !! \n");
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }
     return (void *)work;
 }
 
-void *NewKatana_800C5660(MATRIX *pos)
+void *NewDemoKatana(MATRIX *world)
 {
-    SVECTOR     svec1;
-    SVECTOR     svec2;
-    Work *work;
+    SVECTOR vec1;
+    SVECTOR vec2;
+    Work   *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)KatanaAct_800C5210,
-                         (GV_ACTFUNC)KatanaDie_800C5564, "katana.c");
-        work->field_44 = 1;
-        svec1.vx = 0;
-        svec1.vy = -65;
-        svec1.vz = -883;
-        svec2.vx = 0;
-        svec2.vy = -65;
-        svec2.vz = -45;
-        if (KatanaGetResources_800C53E4(work, pos, &svec1, &svec2, &work->field_44) < 0)
+        GV_SetNamedActor(work, Act, Die, "katana.c");
+
+        work->enable_flag = 1;
+        setVector(&vec1, 0, -65, -883);
+        setVector(&vec2, 0, -65, -45);
+
+        if (GetResources(work, world, &vec1, &vec2, &work->enable_flag) < 0)
         {
             printf(" Katana Init Err !! \n");
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

@@ -155,7 +155,7 @@ extern SOUNDTBL s04c_dword_800C3598[4];
 extern short  *s04c_dword_800DBE10;
 extern void   *s04c_dword_800DBE14;
 extern SVECTOR s04c_dword_800DBE18;
-extern int     s04c_dword_800DBE20;
+extern int     revolver_used_bul;
 
 void NewAnime_8005E574(MATRIX *);
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
@@ -1849,7 +1849,7 @@ static int GetResources(Work *work, int name, int where)
     s04c_revolver_800D04B8(&work->state, 6);
 
     s04c_dword_800DBE14 = work;
-    s04c_dword_800DBE20 = 0;
+    revolver_used_bul = 0;
 
     return 0;
 }
