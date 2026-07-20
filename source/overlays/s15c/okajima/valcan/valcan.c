@@ -848,7 +848,7 @@ void Valcan_800DA21C(Work *work) // it possibly returns a BulletWork*
     Valcan_800D9EBC(&work->control.mov, &GM_PlayerPosition, &svec);
     DG_SetPos2(&GM_PlayerPosition, &svec);
     ReadRotMatrix(&rotmat);
-    NewBulletEx(2048, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
+    NewBulletEx(BULLET_BLAST, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA2A8.s")

@@ -1,12 +1,13 @@
 #include "enemy/enemy.h"
 
 #include "common.h"
+#include "linkvar.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/item.h"
 #include "game/vibrate.h"
-#include "linkvar.h"
+#include "okajima/bullet.h"
 #include "sound/g_sound.h"
 
 /*** Inlines *****************************************************************/
@@ -1779,10 +1780,8 @@ void s11e_zk11ecom_800D7E8C( ZakoWork* work )
 
 extern SVECTOR s11e_dword_800C36AC;
 
-extern void  NewAnime_8005D6BC( MATRIX *, int );
-extern void  NewAnime_8005D604( MATRIX * );
-extern void *NewBulletEx( int, MATRIX*, int, int, int, int, int, int, int );
-
+extern void AN_BulletSmoke( MATRIX *, int );
+extern void AN_FamasFlash( MATRIX * );
 
 extern int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func );
 
@@ -1808,16 +1807,16 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
 
     if ( GV_Time & 3 )
     {
-        NewBulletEx( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+        NewBulletEx( BULLET_RECOILSPARK,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
     else
     {
-        NewBulletEx( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+        NewBulletEx( BULLET_RECOILSPARK | BULLET_NO_HZD, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
-    NewAnime_8005D6BC( mat, 0 );
-    NewAnime_8005D604( &local_mat );
+    AN_BulletSmoke( mat, 0 );
+    AN_FamasFlash( &local_mat );
     ZAKO11E_ClearPutChar_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );
 }
 

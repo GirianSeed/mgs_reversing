@@ -130,8 +130,8 @@ void ML72_PutBullet_800CB4F0( Meryl72Work *work )
     ReadRotMatrix( &local_mat );
     NewBullet( &local_mat, 2, 1, 0 );
     GM_SeSet( &work->control.mov, SE_ENEMY_SHOT );
-    NewAnime_8005D6BC( mat, 0 );
-    NewAnime_8005D604( &local_mat );
+    AN_BulletSmoke( mat, 0 );
+    AN_FamasFlash( &local_mat );
 
     ML72_ClearPutChar_800CB5CC( work, ML72_PutBullet_800CB4F0 ) ;
 }

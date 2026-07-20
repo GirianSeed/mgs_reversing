@@ -1,12 +1,13 @@
 #include "guncame.h"
 
 #include "common.h"
-#include "libgv/libgv.h"
+#include "linkvar.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "libgv/libgv.h"
 #include "bullet/blast.h"
 #include "game/game.h"
-#include "linkvar.h"
+#include "okajima/bullet.h"
 #include "sound/g_sound.h"
 
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
@@ -104,8 +105,6 @@ extern int     s03e_dword_800C32BC;
 void AN_Unknown_800CA1EC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
-
-void *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C
 int GunCame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -323,7 +322,7 @@ void GunCame_800C73D0(Work *work)
 
     if (GM_GameStatus & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
     {
-        NewBulletEx(256, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
+        NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
     }
     else
     {
@@ -332,19 +331,19 @@ void GunCame_800C73D0(Work *work)
         case DIFFICULTY_VERY_EASY:
         case DIFFICULTY_EASY:
         default:
-            NewBulletEx(256, &pos, 0, 1, 0, 30, 80, work->field_364, 2000);
+            NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 80, work->field_364, 2000);
             break;
 
         case DIFFICULTY_NORMAL:
-            NewBulletEx(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);
+            NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);
             break;
 
         case DIFFICULTY_HARD:
-            NewBulletEx(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);;
+            NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);;
             break;
 
         case DIFFICULTY_EXTREME:
-            NewBulletEx(256, &pos, 0, 1, 0, 30, 160, work->field_364, 2000);
+            NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 160, work->field_364, 2000);
             break;
         }
     }

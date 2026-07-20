@@ -1648,8 +1648,8 @@ void MERYL_PutBullet( WatcherWork *work )
     ReadRotMatrix( &local_mat );
 
     GM_SeSet( &work->control.mov, SE_ENEMY_SHOT );
-    NewAnime_8005D6BC(mat, 0);
-    NewAnime_8005D604(&local_mat);
+    AN_BulletSmoke(mat, 0);
+    AN_FamasFlash(&local_mat);
 
     MERYL_ClearPutChar( work, MERYL_PutBullet );
 }

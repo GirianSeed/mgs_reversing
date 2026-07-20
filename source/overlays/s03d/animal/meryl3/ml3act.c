@@ -91,10 +91,10 @@ void s03d_800CBB2C(Meryl3Work *work)
     rot.vx = 0x400;
     DG_RotatePos(&rot);
     ReadRotMatrix(&mat);
-    NewBulletEx(0x100, &mat, 1, 1, 0, 0xA, 0x41, 0x2710, 0x2EE);
+    NewBulletEx(BULLET_RECOILSPARK, &mat, 1, 1, 0, 0xA, 0x41, 0x2710, 0x2EE);
     GM_SeSetMode(&work->control.mov, 0x2E, 1);
-    NewAnime_8005D6BC(m, 0);
-    NewAnime_8005D604(&mat);
+    AN_BulletSmoke(m, 0);
+    AN_FamasFlash(&mat);
 }
 void s03d_800CBC10(Meryl3Work *work, int arg)
 {

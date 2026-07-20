@@ -125,7 +125,7 @@ static void Act(Work *work)
                     ctrl2 = work->root_ctrl;
 
                     GM_SetNoise(200, 2, &ctrl2->mov);
-                    NewAnime_8005D604(&mtx);
+                    AN_FamasFlash(&mtx);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ static void Act(Work *work)
                     GM_SeSet(&work->root_ctrl->mov, SE_MP5_SHOT);
                 }
 
-                NewAnime_8005D6BC(&work->obj.objs->world, work->time == 0);
+                AN_BulletSmoke(&work->obj.objs->world, work->time == 0);
             }
 
             ++work->time;

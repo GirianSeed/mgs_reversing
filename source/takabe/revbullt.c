@@ -15,6 +15,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define TRAILS      1
+
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
 typedef struct _Work
@@ -27,8 +29,8 @@ typedef struct _Work
     MATRIX   world;
     TARGET   target;
     DG_PRIM *prim;
-    SVECTOR  verts[8];
-    SVECTOR  trail[8];
+    SVECTOR  verts[TRAILS * 8];
+    SVECTOR  trail[(TRAILS + 1) * 4];
     int      draw_trail;
     int      hitlen;
     SVECTOR  endpos;
@@ -76,7 +78,7 @@ static void InitTrail(Work *work)
     PutTrail(work->trail);
 
     verts = work->trail;
-    for (i = 1; i > 0; i--)
+    for (i = TRAILS; i > 0; i--)
     {
         memcpy(verts + 4, verts, sizeof(SVECTOR) * 4);
         verts += 4;
@@ -88,8 +90,8 @@ static void UpdateTrail(Work *work)
     SVECTOR *verts;
     int      i;
 
-    verts = &work->trail[4];
-    for (i = 1; i > 0; i--)
+    verts = work->trail + 4;
+    for (i = TRAILS; i > 0; i--)
     {
         memcpy(verts, verts - 4, sizeof(SVECTOR) * 4);
         verts -= 4;
@@ -106,7 +108,7 @@ static void CopyTrail(Work *work)
     src = work->trail;
     dst = work->verts;
 
-    for (i = 1; i > 0; i--)
+    for (i = TRAILS; i > 0; i--)
     {
         dst[0] = src[0];
         dst[1] = src[1];
@@ -116,7 +118,6 @@ static void CopyTrail(Work *work)
         dst[5] = src[3];
         dst[6] = src[6];
         dst[7] = src[7];
-
         dst += 8;
         src += 4;
     }
@@ -128,7 +129,7 @@ static void InitPacks(POLY_FT4 *packs, DG_TEX *tex)
     int shade;
     int x, y, w, h;
 
-    for (i = 0; i < 1; i++)
+    for (i = 0; i < TRAILS; i++)
     {
         for (j = 2; j > 0; j--)
         {
@@ -144,7 +145,7 @@ static void InitPacks(POLY_FT4 *packs, DG_TEX *tex)
             packs->u1 = packs->u3 = w + x;
 
             y = tex->off_y;
-            h = tex->h;
+            h = tex->h / TRAILS;
             packs->v0 = packs->v1 = y + (h + 1) * i;
             packs->v2 = packs->v3 = y + (h + 1) * (i + 1) - 1;
 
@@ -253,7 +254,7 @@ static void Act(Work *work)
                     extern void *NewRevolverBullet(MATRIX *world, int bounces);
 
                     NewRevolverBullet(&world, work->bounces - 1);
-                    NewAnime_8005E508(&work->endpos);
+                    AN_RecoilSmoke(&work->endpos);
                     GM_SeSetMode(&work->pos, 176, GM_SEMODE_BOMB);
                 }
                 else
@@ -355,7 +356,7 @@ static int GetResources(Work *work, MATRIX *world, int visible, int instant)
 
     if (visible != 0)
     {
-        prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, work->verts, NULL);
+        prim = GM_MakePrim(DG_PRIM_POLY_FT4, TRAILS * 2, work->verts, NULL);
         work->prim = prim;
         if (prim == NULL)
         {
