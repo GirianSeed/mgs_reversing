@@ -20,48 +20,48 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
-// TODO: This type of struct is seen in other places that make use of HZD_FLR.
-typedef struct _BULLET_VECS
+// TODO: This can be matched using SVECTOR[4] in revbullt.c
+typedef struct _TRAIL
 {
     SVECTOR vecs[4];
-} BULLET_VECS;
+} TRAIL;
 
 typedef struct _Work
 {
-    GV_ACT      actor;
-    int         map;
-    MATRIX      field_24;
-    TARGET      target;
-    DG_PRIM    *prim;
-    SVECTOR     field_90[8];
-    BULLET_VECS field_D0[2];
-    SVECTOR     field_110;
-    SVECTOR     field_118;
-    SVECTOR     field_120;
-    SVECTOR     field_128;
-    HZD_FLR    *floor;
-    int         field_134;
-    int         field_138;
-    int         field_13C;
-    int         field_140;
-    int         noise_len;
-    int         side;
-    int         flags;
-    int         field_150;
-    int         damage;
-    int         field_158;
-    int         field_15C;
-    int         field_160;
-    int         field_164;
-    int         field_168;
-    int         field_16C;
+    GV_ACT   actor;
+    int      map;
+    MATRIX   world;
+    TARGET   target;
+    DG_PRIM *prim;
+    SVECTOR  verts[8];
+    TRAIL    trail[2];
+    SVECTOR  field_110;
+    SVECTOR  field_118;
+    SVECTOR  field_120;
+    SVECTOR  field_128;
+    HZD_FLR *floor;
+    int      field_134;
+    int      field_138;
+    int      field_13C;
+    int      field_140;
+    int      noise_len;
+    int      side;
+    int      flags;
+    int      size;
+    int      damage;
+    int      field_158;
+    int      field_15C;
+    int      field_160;
+    int      field_164;
+    int      field_168;
+    int      field_16C;
 } Work;
 
 /*---------------------------------------------------------------------------*/
 
 STATIC int dword_8009F6A8 = 0;
 
-STATIC SVECTOR svec_8009F6AC[4] = {
+STATIC SVECTOR bullet_trail[4] = {
     {0, 0, 0, 0},
     {0, 0, 0, 0},
     {0, 0, 0, 0},
@@ -76,71 +76,71 @@ STATIC SVECTOR svec_8009F6FC = {0, 400, 0, 0};
 
 /*---------------------------------------------------------------------------*/
 
-static void bullet_80075314(SVECTOR *pVec, int amount)
+static void PutTrail(SVECTOR *verts, int size)
 {
-    svec_8009F6AC[0].vx = amount;
-    svec_8009F6AC[1].vx = -amount;
-    svec_8009F6AC[2].vz = amount;
-    svec_8009F6AC[3].vz = -amount;
-    DG_PutVector(svec_8009F6AC, pVec, 4);
+    bullet_trail[0].vx = size;
+    bullet_trail[1].vx = -size;
+    bullet_trail[2].vz = size;
+    bullet_trail[3].vz = -size;
+    DG_PutVector(bullet_trail, verts, 4);
 }
 
-static void bullet_80075358(Work *work)
+static void InitTrail(Work *work)
 {
-    BULLET_VECS *pVecs;
+    TRAIL *verts;
     int i;
 
-    bullet_80075314(work->field_D0[0].vecs, work->field_150);
+    PutTrail(work->trail[0].vecs, work->size);
 
-    pVecs = work->field_D0;
+    verts = work->trail;
     for (i = 1; i > 0; i--)
     {
-        pVecs[1] = pVecs[0];
-        pVecs++;
+        verts[1] = verts[0];
+        verts++;
     }
 }
 
-static void bullet_80075414(Work *work)
+static void UpdateTrail(Work *work)
 {
-    BULLET_VECS *pVecs;
+    TRAIL *verts;
     int i;
 
-    pVecs = &work->field_D0[1];
+    verts = &work->trail[1];
     for (i = 1; i > 0; i--)
     {
         if (work->field_134 != 2)
         {
-            pVecs[0] = pVecs[-1];
+            verts[0] = verts[-1];
         }
 
-        pVecs--;
+        verts--;
     }
 
-    bullet_80075314(pVecs->vecs, work->field_150);
+    PutTrail(verts->vecs, work->size);
 }
 
-static void bullet_800754E4(Work *work)
+static void CopyTrail(Work *work)
 {
+    TRAIL *src;
+    SVECTOR *dst;
     int i;
-    SVECTOR *pDst;
-    BULLET_VECS *pVecs;
 
-    pVecs = work->field_D0;
-    pDst = work->field_90;
+    src = work->trail;
+    dst = work->verts;
 
     for (i = 1; i > 0; i--)
     {
-        pDst[0] = pVecs[0].vecs[0];
-        pDst[1] = pVecs[0].vecs[1];
-        pDst[2] = pVecs[1].vecs[0];
-        pDst[3] = pVecs[1].vecs[1];
-        pDst[4] = pVecs[0].vecs[2];
-        pDst[5] = pVecs[0].vecs[3];
-        pDst[6] = pVecs[1].vecs[2];
-        pDst[7] = pVecs[1].vecs[3];
+        dst[0] = src[0].vecs[0];
+        dst[1] = src[0].vecs[1];
+        dst[2] = src[1].vecs[0];
+        dst[3] = src[1].vecs[1];
+        dst[4] = src[0].vecs[2];
+        dst[5] = src[0].vecs[3];
+        dst[6] = src[1].vecs[2];
+        dst[7] = src[1].vecs[3];
 
-        pDst += 8;
-        pVecs++;
+        dst += 8;
+        src++;
     }
 }
 
@@ -428,14 +428,14 @@ static void Act(Work *work)
 
     if (work->field_134 != 0)
     {
-        work->field_24.t[0] = work->field_110.vx;
-        work->field_24.t[1] = work->field_110.vy;
-        work->field_24.t[2] = work->field_110.vz;
+        work->world.t[0] = work->field_110.vx;
+        work->world.t[1] = work->field_110.vy;
+        work->world.t[2] = work->field_110.vz;
 
-        DG_SetPos(&work->field_24);
+        DG_SetPos(&work->world);
 
-        bullet_80075414(work);
-        bullet_800754E4(work);
+        UpdateTrail(work);
+        CopyTrail(work);
     }
 
     if (work->field_13C <= work->field_138)
@@ -451,11 +451,11 @@ static void Act(Work *work)
         }
         else
         {
-            work->field_24.t[0] = work->field_118.vx;
-            work->field_24.t[1] = work->field_118.vy;
-            work->field_24.t[2] = work->field_118.vz;
+            work->world.t[0] = work->field_118.vx;
+            work->world.t[1] = work->field_118.vy;
+            work->world.t[2] = work->field_118.vz;
 
-            mtx = work->field_24;
+            mtx = work->world;
             DG_ReflectMatrix(&work->field_128, &mtx, &mtx);
 
             if (work->flags & 0x200)
@@ -540,7 +540,7 @@ static int GetResources(Work *work, MATRIX* pMtx, int arg2, int noise_len, int s
 
     work->field_164 = 0;
     work->map = GM_CurrentMap;
-    work->field_24 = *pMtx;
+    work->world = *pMtx;
 
     DG_SetPos(pMtx);
     DG_PutVector(&svec_8009F6FC, &work->field_110, 1);
@@ -564,7 +564,7 @@ static int GetResources(Work *work, MATRIX* pMtx, int arg2, int noise_len, int s
     test = arg2 <= 2;
     if ((arg2 >= 0) && test)
     {
-        pPrim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, work->field_90, NULL);
+        pPrim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, work->verts, NULL);
         work->prim = pPrim;
 
         if (!pPrim)
@@ -581,7 +581,7 @@ static int GetResources(Work *work, MATRIX* pMtx, int arg2, int noise_len, int s
 
         InitPacks(pPrim->packs[0], pTex, arg2);
         InitPacks(pPrim->packs[1], pTex, arg2);
-        bullet_80075358(work);
+        InitTrail(work);
     }
 
     return 0;
@@ -602,7 +602,7 @@ void *NewBulletEnemy(MATRIX *pMtx, int side, int arg2, int noise_len, int arg4)
         vec.vy = pMtx->m[1][0];
         vec.vz = pMtx->m[2][0];
         work->field_160 = GV_VecLen3( &vec );
-        work->field_150 = 10;
+        work->size = 10;
         work->damage = 64;
 
         if ( noise_len == 2 )
@@ -655,7 +655,7 @@ void *NewBullet(MATRIX *pMtx, int side, int a3, int noise_len)
         vec.vy = pMtx->m[1][0];
         vec.vz = pMtx->m[2][0];
         work->field_160 = GV_VecLen3(&vec);
-        work->field_150 = 10;
+        work->size = 10;
 
         if ( side == PLAYER_SIDE )
         {
@@ -726,7 +726,7 @@ void *NewBulletEx(int flag, MATRIX* pMtx, int side, int a4, int noise_len, int a
 
     GV_SetNamedActor(&work->actor, Act, Die, "bullet.c");
     work->flags = flag;
-    work->field_150 = a6 / 2;
+    work->size = a6 / 2;
     work->damage = damage;
     work->field_158 = a8;
     work->field_15C = a9;

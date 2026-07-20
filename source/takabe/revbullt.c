@@ -6,10 +6,10 @@
 
 #include "common.h"
 #include "linkvar.h"
-#include "anime/animconv/anime.h"
-#include "game/game.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "anime/animconv/anime.h"
+#include "game/game.h"
 #include "okajima/spark.h"
 #include "sound/g_sound.h"
 
@@ -28,11 +28,8 @@ typedef struct _Work
     TARGET   target;
     DG_PRIM *prim;
     SVECTOR  verts[8];
-
-    // TODO: Figure out what these two are used for
-    SVECTOR  verts2[8];
-    int      f128;
-
+    SVECTOR  trail[8];
+    int      draw_trail;
     int      hitlen;
     SVECTOR  endpos;
     SVECTOR  normal;
@@ -47,7 +44,7 @@ typedef struct _Work
 
 static const SVECTOR bullet_step = { 0, -750, 0 };
 
-static SVECTOR s04c_dword_800C35B0[4] = {
+static SVECTOR bullet_trail[4] = {
     {  15, 0,   0 },
     { -15, 0,   0 },
     {   0, 0,  15 },
@@ -66,19 +63,19 @@ int revolver_used_bul;
 
 /*---------------------------------------------------------------------------*/
 
-static void TransformPrim(SVECTOR *verts)
+static void PutTrail(SVECTOR *verts)
 {
-    DG_PutVector(s04c_dword_800C35B0, verts, 4);
+    DG_PutVector(bullet_trail, verts, 4);
 }
 
-static void InitPrim(Work *work)
+static void InitTrail(Work *work)
 {
     SVECTOR *verts;
     int      i;
 
-    TransformPrim(work->verts2);
+    PutTrail(work->trail);
 
-    verts = work->verts2;
+    verts = work->trail;
     for (i = 1; i > 0; i--)
     {
         memcpy(verts + 4, verts, sizeof(SVECTOR) * 4);
@@ -86,28 +83,27 @@ static void InitPrim(Work *work)
     }
 }
 
-static void PushPrim(Work *work)
+static void UpdateTrail(Work *work)
 {
     SVECTOR *verts;
     int      i;
 
-    verts = &work->verts2[4];
+    verts = &work->trail[4];
     for (i = 1; i > 0; i--)
     {
         memcpy(verts, verts - 4, sizeof(SVECTOR) * 4);
         verts -= 4;
     }
 
-    TransformPrim(verts);
+    PutTrail(verts);
 }
 
-static void CopyPrim(Work *work)
+static void CopyTrail(Work *work)
 {
-    SVECTOR *src;
-    SVECTOR *dst;
+    SVECTOR *src, *dst;
     int      i;
 
-    src = work->verts2;
+    src = work->trail;
     dst = work->verts;
 
     for (i = 1; i > 0; i--)
@@ -233,10 +229,10 @@ static void Act(Work *work)
         SetRotMatrix(&work->world);
         SetTransMatrix(&work->world);
 
-        if (work->f128 != 0)
+        if (work->draw_trail)
         {
-            PushPrim(work);
-            CopyPrim(work);
+            UpdateTrail(work);
+            CopyTrail(work);
         }
 
         if (GV_DiffVec3(&work->pos, &work->start) >= work->hitlen)
@@ -276,7 +272,7 @@ static void Act(Work *work)
     else
     {
         state = work->state;
-        if (state == 0 && work->f128 != 0)
+        if (state == 0 && work->draw_trail)
         {
             DG_InvisiblePrim(work->prim);
         }
@@ -376,7 +372,7 @@ static int GetResources(Work *work, MATRIX *world, int visible, int instant)
 
         InitPacks(prim->packs[0], tex);
         InitPacks(prim->packs[1], tex);
-        InitPrim(work);
+        InitTrail(work);
     }
 
     return 0;
@@ -401,7 +397,7 @@ void *NewRevolverBullet(MATRIX *world, int bounces)
 
         CreateTarget(work, ENEMY_SIDE);
 
-        work->f128 = 1;
+        work->draw_trail = 1;
         work->hitflag = 0;
         work->bounces = bounces;
         work->unused = 0;
