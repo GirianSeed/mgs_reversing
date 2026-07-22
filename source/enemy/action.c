@@ -6,11 +6,12 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "linkvar.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/item.h"
-#include "linkvar.h"
+#include "okajima/bullet.h"
 #include "sound/g_sound.h"
 
 // from takabe/mosaic.h
@@ -1721,14 +1722,13 @@ void *PutFuncList_800C3400[4] = {
 
 SVECTOR s00a_dword_800C3410 = { 5, -500, 80, 0 };
 
-extern short   s00a_dword_800E0F12;
+extern short s00a_dword_800E0F12;
 
-extern void  NewAnime_8005D6BC( MATRIX *, int );
-extern void  NewAnime_8005D604( MATRIX * );
-extern void *NewBulletEx( int, MATRIX*, int, int, int, int, int, int, int );
-extern void  NewBlood( MATRIX *, int );
-extern void  NewLSight( SVECTOR *from, SVECTOR *to, int color ) ;
-extern void  AN_Breath( MATRIX * );
+extern void AN_BulletSmoke( MATRIX *, int );
+extern void AN_FamasFlash( MATRIX * );
+extern void NewBlood( MATRIX *, int );
+extern void NewLSight( SVECTOR *from, SVECTOR *to, int color ) ;
+extern void AN_Breath( MATRIX * );
 
 void ENE_PutBlood( WatcherWork* work, int obj_idx, int count )
 {
@@ -2030,16 +2030,16 @@ void ENE_PutBulletEx( WatcherWork *work )
 
     if ( GV_Time & 3 )
     {
-        NewBulletEx( 0x100,  &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
+        NewBulletEx( BULLET_RECOILSPARK,  &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }
     else
     {
-        NewBulletEx( 0x1100, &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
+        NewBulletEx( BULLET_RECOILSPARK | BULLET_NO_HZD, &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
-    NewAnime_8005D6BC( mat, 0 );
-    NewAnime_8005D604( &local_mat );
+    AN_BulletSmoke( mat, 0 );
+    AN_FamasFlash( &local_mat );
     ENE_ClearPutChar( work, ENE_PutBulletEx );
 }
 

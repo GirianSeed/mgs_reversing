@@ -606,11 +606,11 @@ void s12a_wolf2_800D0358(Wolf2Work *work)
 
             if (work->f99C == 0)
             {
-                NewBulletEx(512, &sp28, ENEMY_SIDE, 0, 1, 10, 128, 300000, 5000);
+                NewBulletEx(BULLET_RECOILHEAVYSPARK, &sp28, ENEMY_SIDE, 0, 1, 10, 128, 300000, 5000);
             }
             else
             {
-                NewBulletEx(1024, &sp28, ENEMY_SIDE, 0, 1, 10, 128, 300000, 5000);
+                NewBulletEx(BULLET_RECOILSMOKE, &sp28, ENEMY_SIDE, 0, 1, 10, 128, 300000, 5000);
             }
         }
         else
@@ -628,7 +628,7 @@ void s12a_wolf2_800D0358(Wolf2Work *work)
 
                 if (work->f9C8 != -1)
                 {
-                    NewBulletEx(2048, &sp28, ENEMY_SIDE, 0, 1, 10, 0, 500, 2000);
+                    NewBulletEx(BULLET_BLAST, &sp28, ENEMY_SIDE, 0, 1, 10, 0, 500, 2000);
 
                     if (work->f9C8 != -1)
                     {
@@ -651,7 +651,7 @@ void s12a_wolf2_800D0358(Wolf2Work *work)
                 }
                 else
                 {
-                    NewBulletEx(2048, &sp28, ENEMY_SIDE, 0, 1, 10, 64, 500, 2000);
+                    NewBulletEx(BULLET_BLAST, &sp28, ENEMY_SIDE, 0, 1, 10, 64, 500, 2000);
                 }
             }
         }

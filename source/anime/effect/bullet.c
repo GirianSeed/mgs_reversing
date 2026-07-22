@@ -126,7 +126,7 @@ int dword_8009F224 = 0;
 
 /*---------------------------------------------------------------------------*/
 
-void *NewAnime_8005D604(MATRIX *pMtx)
+void *AN_FamasFlash(MATRIX *pMtx)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -158,7 +158,7 @@ void *NewAnime_8005D604(MATRIX *pMtx)
     return NewAnime( NULL, 0, anm );
 }
 
-void NewAnime_8005D6BC(MATRIX *arg0, int arg1)
+void AN_BulletSmoke(MATRIX *arg0, int arg1)
 {
     PRESCRIPT pre;
     MATRIX sp28;
@@ -251,7 +251,7 @@ void NewAnime_8005D6BC(MATRIX *arg0, int arg1)
 #endif
 }
 
-void NewAnime_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
+void AN_SocomFlash(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 {
     PRESCRIPT  prescript;
     MATRIX     m;
@@ -615,7 +615,7 @@ void NewAnime_8005E258(MATRIX *pMatrix)
     NewAnime(NULL, 0, &stru_8009F1B4);
 }
 
-void NewAnime_8005E334(MATRIX *rotation)
+void AN_HeavyFlash(MATRIX *rotation)
 {
     PRESCRIPT  pre;
     SVECTOR    translation;
@@ -695,7 +695,7 @@ void NewAnime_8005E334(MATRIX *rotation)
     NewAnime( NULL, 0, anm );
 }
 
-void NewAnime_8005E508(SVECTOR *pos)
+void AN_RecoilSmoke(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre = {{ 0 }};

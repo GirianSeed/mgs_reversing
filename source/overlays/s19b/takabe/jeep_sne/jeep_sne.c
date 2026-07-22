@@ -227,7 +227,7 @@ int s19b_jlamp2_800D50F4(Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
 extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
-extern void NewAnime_8005D604(MATRIX *world);
+extern void AN_FamasFlash(MATRIX *world);
 extern void s19b_jblood_800C8070(MATRIX *world);
 extern SVECTOR s19b_dword_800C3A40;
 extern SVECTOR s19b_dword_800C3A38;
@@ -249,7 +249,7 @@ void s19b_jlamp2_800D5260(Work *work)
     if (Takabe_JeepSystem.field_78 == 0)
     {
         GM_SeSet(&svec, 0x2E);
-        NewAnime_8005D604(&mtx);
+        AN_FamasFlash(&mtx);
     }
     else
     {

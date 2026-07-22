@@ -3,6 +3,7 @@
 #include "game/item.h"
 #include "linkvar.h"
 #include "okajima/blood.h"
+#include "okajima/bullet.h"
 
 extern SVECTOR s11i_800C33B4;
 extern SVECTOR s11i_800C33BC;
@@ -16,9 +17,8 @@ extern void       *PutFuncList_800C33E0[5];
 
 extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
-void  AN_Breath( MATRIX *world );
-void  NewLSight( SVECTOR *from, SVECTOR *to, int color );
-void *NewBulletEx( int, MATRIX *, int, int, int, int, int, int, int );
+void AN_Breath( MATRIX *world );
+void NewLSight( SVECTOR *from, SVECTOR *to, int color );
 
 int ZAKO11F_ClearPutChar_800CD748( Zako11FWork *work, void *func );
 
@@ -256,17 +256,17 @@ void ZAKO11F_PutBulletEx_800CD4DC( Zako11FWork *work )
 
     if ( GV_Time & 3 )
     {
-        NewBulletEx(0x100, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
+        NewBulletEx(BULLET_RECOILSPARK, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
     }
     else
     {
-        NewBulletEx(0x1100, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
+        NewBulletEx(BULLET_RECOILSPARK | BULLET_NO_HZD, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
     }
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
 
-    NewAnime_8005D6BC( world, 0 );
-    NewAnime_8005D604( &local );
+    AN_BulletSmoke( world, 0 );
+    AN_FamasFlash( &local );
 
     ZAKO11F_ClearPutChar_800CD748( work, ZAKO11F_PutBulletEx_800CD4DC );
 }
@@ -288,12 +288,12 @@ void ZAKO11F_PutBulletEx2_800CD618( Zako11FWork *work )
     DG_RotatePos( &rot );
     ReadRotMatrix( &local );
 
-    NewBulletEx(0x901, &local, ENEMY_SIDE, 1, 0, 0x1E, work->field_B86, 40000, 1500);
+    NewBulletEx(BULLET_FLASH | BULLET_RECOILSPARK | BULLET_BLAST, &local, ENEMY_SIDE, 1, 0, 0x1E, work->field_B86, 40000, 1500);
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
 
-    NewAnime_8005D6BC( world, 0 );
-    NewAnime_8005D604( &local );
+    AN_BulletSmoke( world, 0 );
+    AN_FamasFlash( &local );
 
     ZAKO11F_ClearPutChar_800CD748( work, ZAKO11F_PutBulletEx2_800CD618 );
 }

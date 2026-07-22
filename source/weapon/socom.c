@@ -230,7 +230,7 @@ static void Act( Work *work )
 {
     int color;
     u_long flags;
-    MATRIX  MStack48;
+    MATRIX  bullet;
     MATRIX *world;
     int mag_size;
     int f108;
@@ -345,20 +345,20 @@ static void Act( Work *work )
 
         DG_SetPos( world );
         DG_MovePos( &stru_8009F3BC[0] );
-        ReadRotMatrix( &MStack48 );
-        NewBullet( &MStack48, work->side, 0, 1 );
+        ReadRotMatrix( &bullet );
+        NewBullet( &bullet, work->side, 0, 1 );
 
         if ( work->supressor == 0 )
         {
             GM_SeSet( &work->root_ctrl->mov, SE_SOCOM_SHOT );
             GM_SetNoise(200, 2, &work->root_ctrl->mov);
-            NewAnime_8005D988( world, &MStack48, 0 );
+            AN_SocomFlash( world, &bullet, 0 );
         }
         else
         {
             GM_SeSet( &work->root_ctrl->mov, SE_SOCOM_SUPPRESSED );
             GM_SetNoise(5, 2, &work->root_ctrl->mov);
-            NewAnime_8005D988( world, &MStack48, 1 );
+            AN_SocomFlash( world, &bullet, 1 );
         }
 
         GM_Magazine = --mag_size;

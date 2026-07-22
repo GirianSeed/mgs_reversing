@@ -51,7 +51,7 @@ static void Act(Work *work)
         ReadRotMatrix(&world);
         NewBullet(&world, work->side, 0, 1);
         GM_SeSet(&work->root_ctrl->mov, SE_FAMAS_SHOT);
-        NewAnime_8005D604(&world);
+        AN_FamasFlash(&world);
     }
 }
 
