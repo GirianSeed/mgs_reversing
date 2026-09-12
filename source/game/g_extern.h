@@ -63,6 +63,9 @@ extern int GM_N_WhereList;
 extern int GM_CurrentMap;
 #endif // __GAME_CONTROL_C__
 
+extern unsigned short GM_WeaponTypes[];
+extern unsigned short GM_ItemTypes[];
+
 /*---------------------------------------------------------------------------*/
 
 /* gamed.c */

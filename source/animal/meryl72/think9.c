@@ -5,9 +5,6 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 
-extern unsigned short GM_WeaponTypes[];
-extern unsigned short GM_ItemTypes[];
-
 int SECTION(".bss") meryl72_800D5300;
 int SECTION(".bss") meryl72_800D5304;
 

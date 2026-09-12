@@ -707,9 +707,6 @@ static SAVEFILE s07b_dword_800C3788[] = {
 
 /*---------------------------------------------------------------------------*/
 
-extern u_short GM_WeaponTypes[];
-extern u_short GM_ItemTypes[];
-
 extern void s07b_800D2988( void );
 extern void s07b_800D2A0C( int );
 extern void s07b_800D2A64( void );

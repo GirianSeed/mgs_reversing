@@ -48,8 +48,6 @@ short SECTION(".bss") snake_weapon_idx_800BDCBA;
 short SECTION(".bss") snake_weapon_max_ammo_800BDCBC;
 
 extern GM_CameraSystemWork          GM_Camera;
-extern unsigned short     GM_WeaponTypes[];
-extern unsigned short     GM_ItemTypes[];
 extern void              *dword_8009EEA4[];
 extern int                bakudan_count_8009F42C;
 //extern int                gSnaMoveDir_800ABBA4;

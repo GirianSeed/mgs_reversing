@@ -912,9 +912,6 @@ PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
     return gMenuRightItems_800BD888 + rpkIdx;
 }
 
-extern unsigned short GM_ItemTypes[];
-extern unsigned short GM_WeaponTypes[];
-
 extern int              dword_8009F46C;
 
 int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
