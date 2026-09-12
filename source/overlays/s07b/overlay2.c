@@ -71,36 +71,32 @@ int s07b_dword_800C33FC = 0x000000FA;
 int s07b_dword_800C3400 = 0x03E8012C;
 int s07b_dword_800C3404 = 0x0000012C;
 
-const char s07b_dword_800E4B4C[] = {0xa5, 0xb9, 0xa5, 0xcd};
-const char s07b_dword_800E4B50[] = {0xa1, 0xbc, 0xa5, 0xaf};
-const char s07b_dword_800E4B54[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E4B58[] = {'g', 'o', '_', 'm'};
-const char s07b_dword_800E4B5C[] = {'o', 't', 'i', 'o'};
-const char s07b_dword_800E4B60[] = {'n', 0x0, 0x0, 0x0};
-const char s07b_dword_800E4B64[] = {'s', 't', 'a', 'n'};
-const char s07b_dword_800E4B68[] = {'c', 'e', 0x0, 0x0};
-const char s07b_dword_800E4B6C[] = {'r', 'u', 'n', '_'};
-const char s07b_dword_800E4B70[] = {'m', 'o', 'v', 'e'};
-const char s07b_dword_800E4B74[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E4B78[] = {'s', 'e', 't', ' '};
-const char s07b_dword_800E4B7C[] = {'v', 'o', 'i', 'c'};
-const char s07b_dword_800E4B80[] = {'e', ' ', '%', 'd'};
-const char s07b_dword_800E4B84[] = {'\n', 0x0, 0x0, 0x0};
+const char s07b_dword_800E4B4C[] = "スネーク";
+const char s07b_dword_800E4B58[] = "go_motion";
+const char s07b_dword_800E4B64[] = "stance";
+const char s07b_dword_800E4B6C[] = "run_move";
+const char s07b_dword_800E4B78[] = "set voice %d\n";
+
 const char s07b_dword_800E4B88[] = {0x0, 0x0, 0x0, 0x0};
+
 const int s07b_dword_800E4B8C = 0x800C531C;
 const int s07b_dword_800E4B90 = 0x800C531C;
 const int s07b_dword_800E4B94 = 0x800C5360;
 const int s07b_dword_800E4B98 = 0x800C5374;
 const int s07b_dword_800E4B9C = 0x800C531C;
-const char s07b_dword_800E4BA0[] = {'M', 'E', 'R', 'Y'};
-const char s07b_dword_800E4BA4[] = {'L', 0x0, 0x0, 0x0};
+
+const char s07b_dword_800E4BA0[] = "MERYL";
+
 const char s07b_dword_800E4BA8[] = {0x0, 0x0, 0x0, 0x0};
+
 const int s07b_dword_800E4BAC = 0x800C81EC;
 const int s07b_dword_800E4BB0 = 0x800C8338;
 const int s07b_dword_800E4BB4 = 0x800C8368;
 const int s07b_dword_800E4BB8 = 0x800C842C;
 const int s07b_dword_800E4BBC = 0x800C846C;
+
 const char s07b_dword_800E4BC0[] = {0x0, 0x0, 0x0, 0x0};
+
 const int s07b_dword_800E4BC4 = 0x800C9DC4;
 const int s07b_dword_800E4BC8 = 0x800C9DD4;
 const int s07b_dword_800E4BCC = 0x800C9DE4;
@@ -110,10 +106,9 @@ const int s07b_dword_800E4BD8 = 0x800C9E14;
 const int s07b_dword_800E4BDC = 0x800C9E24;
 const int s07b_dword_800E4BE0 = 0x800C9E34;
 const int s07b_dword_800E4BE4 = 0x800C9E44;
-const char s07b_dword_800E4BE8[] = {'m', 'e', 'r', 'y'};
-const char s07b_dword_800E4BEC[] = {'l', 0x0, 0x0, 0x0};
-const char s07b_dword_800E4BF0[] = {'m', 'e', 'l', '_'};
-const char s07b_dword_800E4BF4[] = {'0', '7', 'b', 0x0};
+
+const char s07b_dword_800E4BE8[] = "meryl";
+const char s07b_dword_800E4BF0[] = "mel_07b";
 const char s07b_dword_800E4BF8[] = {'m', 'e', 'r', 'y'};
 const char s07b_dword_800E4BFC[] = {'l', '0', '7', 'b'};
 const char s07b_dword_800E4C00[] = {'.', 'c', 0x0, '4'};
@@ -327,41 +322,23 @@ const char s07b_dword_800E4F38[] = {0xff, 0xec, 0x4, 0x0};
 const char s07b_dword_800E4F3C[] = {0x0, 0x0, '\n', 0x0};
 const char s07b_dword_800E4F40[] = {0x0, 0x2, 0x0, 0x1};
 const char s07b_dword_800E4F44[] = {0xd, 0xf, 'k', 'a'};
-const char s07b_dword_800E4F48[] = {'d', 'e', 's', 'e'};
-const char s07b_dword_800E4F4C[] = {'r', 't', 0x0, 0x0};
+
+const char s07b_dword_800E4F48[] = "desert";
 const char s07b_dword_800E4F50[] = {'d', 'e', 's', 'e'};
 const char s07b_dword_800E4F54[] = {'r', 't', '.', 'c'};
 const char s07b_dword_800E4F58[] = {0x0, 'C', 'C', ' '};
-const char s07b_dword_800E4F5C[] = {'s', 'h', 'u', 'k'};
-const char s07b_dword_800E4F60[] = {'a', 'n', ' ', 'm'};
-const char s07b_dword_800E4F64[] = {'o', 'd', 'e', ' '};
-const char s07b_dword_800E4F68[] = {'o', 'f', 'f', '\n'};
-const char s07b_dword_800E4F6C[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E4F70[] = {'s', 'h', 'u', 'k'};
-const char s07b_dword_800E4F74[] = {'a', 'n', ' ', 'm'};
-const char s07b_dword_800E4F78[] = {'o', 'd', 'e', ' '};
-const char s07b_dword_800E4F7C[] = {'o', 'n', '\n', 0x0};
-const char s07b_dword_800E4F80[] = {'p', 's', 'y', ' '};
-const char s07b_dword_800E4F84[] = {'s', 'h', 'u', 'k'};
-const char s07b_dword_800E4F88[] = {'a', 'n', ' ', 'o'};
-const char s07b_dword_800E4F8C[] = {'n', ' ', '%', 'd'};
-const char s07b_dword_800E4F90[] = {'\n', 0x0, 0x0, 0x0};
-const char s07b_dword_800E4F94[] = {'p', 's', 'y', ' '};
-const char s07b_dword_800E4F98[] = {'s', 'h', 'u', 'k'};
-const char s07b_dword_800E4F9C[] = {'a', 'n', ' ', 'o'};
-const char s07b_dword_800E4FA0[] = {'f', 'f', ' ', '%'};
-const char s07b_dword_800E4FA4[] = {'d', '\n', 0x0, 0x0};
-const char s07b_dword_800E4FA8[] = {0xa5, 0xb9, 0xa5, 0xcd};
-const char s07b_dword_800E4FAC[] = {0xa1, 0xbc, 0xa5, 0xaf};
-const char s07b_dword_800E4FB0[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E4FB4[] = {'a', 't', 't', 'a'};
-const char s07b_dword_800E4FB8[] = {'c', 'k', ' ', 'e'};
-const char s07b_dword_800E4FBC[] = {'n', 'd', '\n', 0x0};
-const char s07b_dword_800E4FC0[] = {0xb6, 0xbb, 0xc1, 0xfc};
-const char s07b_dword_800E4FC4[] = {0xa3, 0xb1, 0x0, 0x0};
-const char s07b_dword_800E4FC8[] = {0xb6, 0xbb, 0xc1, 0xfc};
-const char s07b_dword_800E4FCC[] = {0xa3, 0xb2, 0x0, 0x0};
+
+const char s07b_dword_800E4F5C[] = "shukan mode off\n";
+const char s07b_dword_800E4F70[] = "shukan mode on\n";
+const char s07b_dword_800E4F80[] = "psy shukan on %d\n";
+const char s07b_dword_800E4F94[] = "psy shukan off %d\n";
+const char s07b_dword_800E4FA8[] = "スネーク";
+const char s07b_dword_800E4FB4[] = "attack end\n";
+const char s07b_dword_800E4FC0[] = "胸像１";
+const char s07b_dword_800E4FC8[] = "胸像２";
+
 const char s07b_dword_800E4FD0[] = {0x0, 0x0, 0x0, 0x0};
+
 const int s07b_dword_800E4FD4 = 0x800CD040;
 const int s07b_dword_800E4FD8 = 0x800CD1BC;
 const int s07b_dword_800E4FDC = 0x800CD1A4;
@@ -379,11 +356,10 @@ const int s07b_dword_800E5008 = 0x800CD0DC;
 const int s07b_dword_800E500C = 0x800CD0DC;
 const int s07b_dword_800E5010 = 0x800CD0F8;
 const int s07b_dword_800E5014 = 0x800CD0F8;
-const char s07b_dword_800E5018[] = {'M', 'A', 'N', 'T'};
-const char s07b_dword_800E501C[] = {'I', 'S', 0x0, 0x0};
-const char s07b_dword_800E5020[] = {0xa5, 0xde, 0xa5, 0xf3};
-const char s07b_dword_800E5024[] = {0xa5, 0xc6, 0xa5, 0xa3};
-const char s07b_dword_800E5028[] = {0xa5, 0xb9, 0x0, 0x0};
+
+const char s07b_dword_800E5018[] = "MANTIS";
+const char s07b_dword_800E5020[] = "マンティス";
+
 const int s07b_dword_800E502C = 0x800CFF7C;
 const int s07b_dword_800E5030 = 0x800D0064;
 const int s07b_dword_800E5034 = 0x800D0178;
@@ -401,18 +377,13 @@ const int s07b_dword_800E5060 = 0x800D1134;
 const int s07b_dword_800E5064 = 0x800D1144;
 const int s07b_dword_800E5068 = 0x800D1154;
 const int s07b_dword_800E506C = 0x800D1164;
-const char s07b_dword_800E5070[] = {0xa5, 0xe1, 0xa5, 0xea};
-const char s07b_dword_800E5074[] = {0xa5, 0xeb, 0x0, 0x0};
-const char s07b_dword_800E5078[] = {'h', 'i', 'd', 'e'};
-const char s07b_dword_800E507C[] = {'o', '_', 'b', 0x0};
-const char s07b_dword_800E5080[] = {'h', 'i', 'd', 'e'};
-const char s07b_dword_800E5084[] = {'o', '_', 's', 0x0};
-const char s07b_dword_800E5088[] = {'h', 'i', 'd', 'e'};
-const char s07b_dword_800E508C[] = {'o', 0x0, 0x0, 0x0};
-const char s07b_dword_800E5090[] = {'p', 's', 'y', 'c'};
-const char s07b_dword_800E5094[] = {'h', 'o', 0x0, 0x0};
-const char s07b_dword_800E5098[] = {'p', 's', 'y', 'c'};
-const char s07b_dword_800E509C[] = {'o', '.', 'c', 0x0};
+
+const char s07b_dword_800E5070[] = "メリル";
+const char s07b_dword_800E5078[] = "hideo_b";
+const char s07b_dword_800E5080[] = "hideo_s";
+const char s07b_dword_800E5088[] = "hideo";
+const char s07b_dword_800E5090[] = "psycho";
+const char s07b_dword_800E5098[] = "psyco.c";
 
 int SECTION(".bss") s07b_dword_800E5BA0;
 int SECTION(".bss") s07b_dword_800E5BA4;
