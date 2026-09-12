@@ -1,75 +1,546 @@
 #include "chara/psyco/psyco.h"
 
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 
+/*---------------------------------------------------------------------------*/
+
 typedef struct _Work {
-    GV_ACT  actor;
-    char    pad20[ 0x154 ];
-    u_short field_174;
-    char    pad176[ 0x34 ];
+    GV_ACT         actor;
+    CONTROL        control;
+    OBJECT_NO_ROTS body;
+    MATRIX         light[ 2 ];
+    TARGET        *target;
+    TARGET         target2;
+    HOMING        *hom;
+    DG_PRIM       *prim;
+    SVECTOR        verts[ 4 ];
+    u_short        flag;
+    int            vital;
+    int            hit;
+    int            radius;
+    SVECTOR        step;
+    char           unused[ 12 ];
+    int            field_198;
+    int            field_19C;
+    int            proc_id;
+    PSYOBJ        *obj;
+    int            count;
 } Work;
 
-int s07b_dword_800C3454 = 0x00000000;
-int s07b_dword_800C3458 = 0x00000000;
-int s07b_dword_800C345C = 0xFFFFFFFF;
-int s07b_dword_800C3460 = 0xFFFFFFFF;
-int s07b_dword_800C3464 = 0x00000000;
-int s07b_dword_800C3468 = 0x00000000;
-int s07b_dword_800C346C = 0x00000000;
-int s07b_dword_800C3470 = 0x00000000;
-int s07b_dword_800C3474 = 0x00000000;
-int s07b_dword_800C3478 = 0x00000000;
-int s07b_dword_800C347C = 0x00000024;
+/*---------------------------------------------------------------------------*/
 
-const char s07b_dword_800E5110[] = "timeout %d\n";
-const char s07b_dword_800E511C[] = "07b_o11";
-const char s07b_dword_800E5124[] = "shadow";
+static int psyobj_count = 0;
+static int target_vital = 36;
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2988.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2A0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2A50.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2A64.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2C3C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2C4C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2C5C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2C6C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2C7C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2CB4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2CEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2CFC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2D48.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2DC4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2E14.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2F2C.s")
+static PSYOBJ objlist[ 32 ];
+
+/*---------------------------------------------------------------------------*/
+
+PSYOBJ *PSYOBJ_FindObject( int name )
+{
+    PSYOBJ *obj;
+    int i;
+
+    obj = objlist;
+    for ( i = 0; i < psyobj_count; i++ )
+    {
+        if ( obj->name == name ) return obj;
+        obj++;
+    }
+
+    return NULL;
+}
+
+void PSYOBJ_Init( void )
+{
+    PSYOBJ *obj;
+    int i;
+
+    obj = objlist;
+    for ( i = 0; i < 32; )
+    {
+        i++;
+        obj->name = 0;
+        obj->pos = obj->rot = DG_ZeroVector;
+        obj->control = NULL;
+        obj++;
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+int GetRaise( DG_MDL *mdl )
+{
+    int raise;
+
+    raise = 0;
+    if ( mdl->flag & 0x300 )
+    {
+        raise = ( 4 - ( ( mdl->flag >> 12 ) & 3 ) ) * 250;
+        if ( !( mdl->flag & 0x100 ) ) raise *= -1;
+    }
+    return raise;
+}
+
+int s07b_800D2E14( Work *work )
+{
+    DG_OBJS *objs;
+    DG_OBJ *obj;
+    int i;
+    DG_DEF *def;
+    DG_MDL *model;
+
+    objs = work->body.objs;
+    obj = objs->objs;
+    for ( i = objs->n_models; i > 0; i-- )
+    {
+        DG_FreeObjPacket( obj, 0 );
+        DG_FreeObjPacket( obj, 1 );
+        obj++;
+    }
+
+    def = objs->def = GV_GetCache( GV_CacheID( GV_StrCode( "07b_o11" ), 'k' ) );
+    model = def->models;
+    obj = objs->objs;
+    for ( i = def->n_x_models; i > 0; i-- )
+    {
+        obj->model = model;
+    
+        if ( model->extend < 0 )
+        {
+            obj->extend = NULL;
+        }
+        else
+        {
+            obj->extend = objs->objs + model->extend;
+        }
+
+        obj->raise = GetRaise( model );
+        obj->n_packs = model->n_faces;
+
+        obj++;
+        model++;
+    }
+
+    return 0;
+}
+
+void s07b_800D2F2C( Work *work )
+{
+    SVECTOR tmp;
+    TARGET *trg;
+
+    work->obj->flag &= ~0x80;
+
+    if ( ( GM_PlayerStatus & PLAYER_INVINCIBLE ) ||
+         ( GM_GameStatus & STATE_PADRELEASE ) ||
+         !( work->obj->flag & 0x10 ) ) return;
+
+    GV_SubVec3( &work->control.mov, &GM_PlayerPosition, &tmp );
+    if ( GV_VecLen3( &tmp ) > 1000 ) return;
+
+    trg = &work->target2;
+    trg->damaged = 0;
+    trg->vital = target_vital;
+    GM_MoveTarget( trg, &work->control.mov );
+    trg->force.vx = work->control.step.vx / 4;
+    trg->force.vy = work->control.step.vy / 4;
+    trg->force.vz = work->control.step.vz / 4;
+
+    work->target->class &= ~TARGET_POWER;
+
+    if ( GM_PowerTarget( trg ) )
+    {
+        GM_SeSetMode( &work->control.mov, SE_HIT, GM_SEMODE_BOMB );
+        work->obj->flag |= 0x80;
+    }
+
+    work->target->class |= TARGET_POWER;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D30B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D3308.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D3494.s")
+void s07b_800D30B4( Work *work );
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D3634.s")
-void s07b_800D3634( Work *work );
+void s07b_800D3308( Work *work )
+{
+    MATRIX world;
+    int levels[ 2 ];
+    MATRIX mat;
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D3760.s")
-void s07b_800D3760( Work *work );
+    if ( !( work->obj->flag & 0x8 ) )
+    {
+        DG_InvisiblePrim( work->prim );
+        return;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D385C.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D3A18.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D3C68.s")
+    if ( work->control.r_sphere == -2 )
+    {
+        ReadRotMatrix( &mat );
+        levels[ 0 ] = -32000;
+        levels[ 1 ] = 32000;
+        HZD_LevelHazardCheck( work->control.map->hzd, &work->control.mov, HZD_CHK_FLOOR );
+        HZD_GetLevelHeight( levels );
+        DG_SetPos( &mat );
+        work->control.levels[ 0 ] = levels[ 0 ];
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D3DC0.s")
-int s07b_800D3DC0( Work *work, int arg0, int arg1 );
+    DG_VisiblePrim( work->prim );
 
-void *NewPsychoObject( int arg0, int arg1 )
+    world = DG_ZeroMatrix;
+    DG_COPY_VEC( (VECTOR *)world.t, &work->control.mov );
+    world.t[ 1 ] = work->control.levels[ 0 ];
+    work->prim->world = world;
+}
+
+static void s07b_800D3494( Work *work )
+{
+    TARGET *trg;
+
+    trg = work->target;
+    if ( !( work->obj->flag & 0x800 ) )
+    {
+        work->hit = 0;
+        trg->class &= ~TARGET_PUSH;
+        trg->damaged &= ~TARGET_PUSH;
+        trg->offset = DG_ZeroVector;
+        trg->force = DG_ZeroVector;
+    }
+    else
+    {
+        trg->class |= TARGET_PUSH;
+        trg->damaged |= TARGET_PUSH;
+        work->control.step = work->step;
+        work->hit = 0;
+
+        if ( trg->damaged & TARGET_PUSH )
+        {
+            trg->damaged &= ~TARGET_PUSH;
+            work->control.step.vx += trg->offset.vx;
+            work->control.step.vz += trg->offset.vz;
+            work->hit = 1;
+        }
+
+        trg->force = DG_ZeroVector;
+
+        if ( GM_PushTarget( trg ) )
+        {
+            work->control.step.vx /= 2;
+            work->control.step.vz /= 2;
+            work->hit = 1;
+        }
+    }
+}
+
+static void Act( Work *work )
+{
+    if ( work->obj->flag & 0x10000 )
+    {
+        work->control.r_sphere = -2;
+        work->control.s_sphere = -2;
+    }
+    else if ( work->control.step.vx == 0 &&
+              work->control.step.vy == 0 &&
+              work->control.step.vz == 0 )
+    {
+        work->control.r_sphere = -2;
+        work->control.s_sphere = -2;
+    }
+    else
+    {
+        work->control.r_sphere = work->radius;
+        work->control.s_sphere = work->radius;
+    }
+
+    GM_ActControl( &work->control );
+    GM_ActObject2( (OBJECT *)&work->body );
+
+    if ( work->count < 4 )
+    {
+        DG_GetLightMatrix( &work->control.mov, work->light );
+        work->count++;
+    }
+
+    GM_MoveTarget( work->target, &work->control.mov );
+    s07b_800D3308( work );
+
+    if ( work->hom != NULL )
+    {
+        if ( work->obj->flag & 0x400 )
+        {
+            work->hom->flag = 1;
+        }
+        else
+        {
+            work->hom->flag = 0;
+        }
+    }
+
+    s07b_800D2F2C( work );
+    s07b_800D30B4( work );
+    s07b_800D3494( work );
+}
+
+static void Die( Work *work )
+{
+    work->obj->pos = work->control.mov;
+    work->obj->rot = work->control.rot;
+    work->obj->control = NULL;
+
+    GM_FreeObject( (OBJECT *)&work->body );
+    if ( work->target != NULL ) GM_FreeTarget( work->target );
+    GM_FreePrim( work->prim );
+
+    if ( work->flag & 0x4 )
+    {
+        if ( work->hom != NULL ) GM_FreeHomingTarget( work->hom );
+    }
+
+    GM_FreeControl( &work->control );
+    psyobj_count--;
+}
+
+static int InitShadow( Work *work )
+{
+    DG_PRIM *prim;
+    DG_TEX *tex;
+    int i;
+    POLY_FT4 *pack;
+    SVECTOR *vert;
+
+    prim = GM_MakePrim( DG_PRIM_POLY_FT4, 1, work->verts, NULL );
+    if ( prim == NULL ) return -1;
+
+    tex = DG_GetTexture( GV_StrCode( "shadow" ) );
+    if ( tex == NULL ) return -1;
+
+    for ( i = 0; i < 2; i++ )
+    {
+        pack = prim->packs[ i ];
+        setPolyFT4( pack );
+        setSemiTrans( pack, 1 );
+        setRGB0( pack, 72, 72, 72 );
+        DG_SetPacketTexture4( pack, tex );
+    }
+
+    vert = work->verts;
+    for ( i = 0; i < 4; i++ )
+    {
+        *vert = DG_ZeroVector;
+        vert->vx = ( i & 1 ) ? 450 : -450;
+        vert->vz = ( i & 2 ) ? 450 : -450;
+        vert->vy = 0;
+        vert++;
+    }
+
+    DG_RaisePrim( prim, 500 );
+    work->prim = prim;
+
+    work->obj->flag |= 0x8;
+    return 0;
+}
+
+static int InitTarget( Work *work )
+{
+    SVECTOR size;
+    TARGET *trg;
+    int class, level, i, p_mode, a_mode;
+
+    if ( GCL_GetOption( 't' ) )
+    {
+        GCL_StrToSV( GCL_NextStr(), (short *)&size );
+    }
+    else
+    {
+        size = DG_ZeroVector;
+    }
+
+    work->target = trg = GM_AllocTarget();
+    if ( trg == NULL ) return -1;
+
+    class = TARGET_SEEK;
+    if ( work->flag & 0x1 )
+    {
+        class |= TARGET_POWER;
+        work->obj->flag |= 0x20;
+    }
+    if ( work->flag & 0x2 ) class |= TARGET_PUSH;
+
+    GM_SetTarget( trg, class, NO_SIDE, &size );
+    GM_SetPowerTarget( trg, POWER_CONST, -1, work->vital, 0, &DG_ZeroVector );
+
+    if ( work->flag & 0x4 )
+    {
+        work->hom = GM_AllocHomingTarget( &work->body.objs->world, &work->control );
+        work->hom->flag = 0;
+    }
+    else
+    {
+        work->hom = NULL;
+    }
+
+    if ( GCL_GetOption( 'a' ) )
+    {
+        GCL_StrToSV( GCL_NextStr(), (short *)&size );
+    }
+    else
+    {
+        size = DG_ZeroVector;
+    }
+
+    if ( GCL_GetOption( 'x' ) )
+    {
+        level = GM_GameLevel;
+        if ( level < 0 ) level = 0;
+
+        for ( i = 0; i < level; i++ )
+        {
+            GCL_GetNextInt();
+        }
+
+        target_vital = GCL_GetNextInt();
+    }
+
+    trg = &work->target2;
+    if ( work->obj->flag & 0x2000 )
+    {
+        a_mode = 2;
+        p_mode = POWER_DECREASE;
+    }
+    else
+    {
+        a_mode = 3;
+        p_mode = POWER_CONST;
+    }
+
+    GM_SetTarget( trg, TARGET_POWER, ENEMY_SIDE, &size );
+    GM_SetPowerTarget( trg, p_mode, a_mode, target_vital, 0, &DG_ZeroVector );
+    return 0;
+}
+
+static void InitFlag( Work *work )
+{
+    char *opt;
+    int i, flag;
+
+    work->flag = 0;
+    work->vital = 0;
+
+    opt = GCL_GetOption( 'f' );
+    if ( opt == NULL ) return;
+
+    for ( i = 0; i < 6; i++ )
+    {
+        if ( i < 3 )
+        {
+            flag = GCL_StrToInt( opt );
+            if ( flag != 0 )
+            {
+                work->flag |= 1 << i;
+                if ( i == 0 )
+                {
+                    if ( flag >= 2 ) work->obj->flag |= 0x8000;
+                    if ( flag == 3 ) work->obj->flag |= 0x100;
+                }
+            }
+        }
+        else if ( i == 3 )
+        {
+            work->vital = GCL_StrToInt( opt );
+        }
+        else if ( i == 4 )
+        {
+            if ( !GCL_StrToInt( opt ) ) work->obj->flag &= ~0x8;
+        }
+        else if ( i == 5 )
+        {
+            if ( GCL_StrToInt( opt ) ) work->obj->flag |= 0x2000;
+        }
+        opt = GCL_NextStr();
+    }
+}
+
+static int GetResources( Work *work, int name, int where )
+{
+    SVECTOR tmp;
+    PSYOBJ *obj;
+    CONTROL *control;
+    OBJECT_NO_ROTS *body;
+    u_short model;
+
+    if ( GCL_GetOption( 'c' ) && GCL_StrToInt( GCL_NextStr() ) != 0 )
+    {
+        psyobj_count = 0;
+        work->flag = 0xFFFF;
+        return -1;
+    }
+
+    control = &work->control;
+    if ( GM_InitControl( control, 0, where ) < 0 ) return -1;
+
+    obj = &objlist[ psyobj_count ];
+    psyobj_count++;
+
+    obj->name = name;
+    GM_ConfigControlString( control, GCL_GetOption( 'p' ), GCL_GetOption( 'd' ) );
+    obj->pos = control->mov;
+    obj->rot = control->rot;
+    obj->flag = 0;
+    obj->control = control;
+    work->obj = obj;
+
+    if ( GCL_GetOption( 'h' ) )
+    {
+        GCL_StrToSV( GCL_NextStr(), (short *)&tmp );
+        GM_ConfigControlHazard( control, tmp.vz, tmp.vx, tmp.vy );
+        work->radius = tmp.vx;
+    }
+    else
+    {
+        GM_ConfigControlHazard( control, 0, -2, -2 );
+        work->radius = -2;
+    }
+
+    control->seg_flag = HZD_SEG_NO_MISSILE;
+
+    body = &work->body;
+    if ( !GCL_GetOption( 'm' ) ) return -1;
+
+    model = GCL_StrToInt( GCL_NextStr() ) & 0xFFFF;
+    GM_InitObjectNoRots( body, model, 0x6D, 0 );
+    GM_ConfigObjectLight( (OBJECT* )body, work->light );
+
+    if ( GCL_GetOption( 'e' ) )
+    {
+        work->proc_id = GCL_StrToInt( GCL_NextStr() );
+    }
+    else
+    {
+        work->proc_id = -1;
+    }
+
+    if ( InitShadow( work ) < 0 ) return -1;
+    InitFlag( work );
+    if ( InitTarget( work ) < 0 ) return -1;
+
+    work->hit = 0;
+    work->field_198 = 32;
+    work->field_19C = 0;
+    return 0;
+}
+
+void *NewPsychoObject( int name, int where )
 {
     Work *work;
 
     work = GV_NewActor( GV_ACTOR_AFTER, sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( work, s07b_800D3634, s07b_800D3760, "psyobj.c" );
-        if ( s07b_800D3DC0( work, arg0, arg1 ) < 0 )
+        GV_SetNamedActor( work, Act, Die, "psyobj.c" );
+        if ( GetResources( work, name, where ) < 0 )
         {
             GV_DestroyActor( work );
-            if ( work->field_174 == 0xFFFF ) return (void *)work;
+            if ( work->flag == 0xFFFF ) return (void *)work;
             return NULL;
         }
     }

@@ -2395,7 +2395,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; meryl07b.c
     ; desert.c
     ; psyco.c
-    ; sonic.c
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800C46F0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800C473C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800C47D4.obj", overlay
@@ -2555,7 +2554,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\chara\psyco\sonic.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay
-
+    include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\chara\psyco\psyobj.obj", overlay
 
     include "{{OBJ_DIR}}\chara\psyco\chair.obj", overlay

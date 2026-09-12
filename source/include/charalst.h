@@ -195,7 +195,7 @@
 #define CHARA_PRISONSNAKE2      { 0x27a2, NewPrisonSnake2 }         // GV_StrCode("独房スネーク２") chara/torture/sne_03c.c
 #define CHARA_PSYCHOMANTIS      { 0xa76f, ? }                       // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
 #define CHARA_PSYCHOMERYL       { 0xf4b0, ? }                       // GV_StrCode("サイコメリル") chara/meryl07b/meryl07b.c
-#define CHARA_PSYOBJ            { 0x710d, ? }                       // GV_StrCode("サイコ物体") chara/psyco/psyobj.c
+#define CHARA_PSYOBJ            { 0x710d, NewPsychoObject }         // GV_StrCode("サイコ物体") chara/psyco/psyobj.c
 #define CHARA_PUTHZD            { 0x91aa, ? }                       // takabe/puthzd.c
 #define CHARA_PILOTLAMP         { 0x169c, NewPilotLamp }            // GV_StrCode("パイロットランプ") okajima/p_lamp.c
 #define CHARA_RADARPOINT        { 0x5147, NewPoint }                // GV_StrCode("レーダーポイント") game/point.c
@@ -419,6 +419,7 @@ extern NEWCHARA NewBelong;                      /* chara/others/belong.c        
 extern NEWCHARA NewFontText;                    /* chara/others/fonttext.c      */
 extern NEWCHARA NewIntrudeCamera;               /* chara/others/intr_cam.c      */
 extern NEWCHARA NewMotionSoundEffect;           /* chara/others/motse.c         */
+extern NEWCHARA NewPsychoObject;                /* chara/psyco/psyobj.c         */
 extern NEWCHARA NewDamageSmoke2;                /* chara/rope/dsmoke2.c         */
 extern NEWCHARA NewLanding;                     /* chara/rope/landing.c         */
 extern NEWCHARA NewPipe;                        /* chara/rope/pipe.c            */

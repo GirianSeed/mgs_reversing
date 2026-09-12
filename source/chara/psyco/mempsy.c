@@ -707,15 +707,15 @@ static SAVEFILE s07b_dword_800C3788[] = {
 
 /*---------------------------------------------------------------------------*/
 
-extern void s07b_800D2988( void );
-extern void s07b_800D2A0C( int );
-extern void s07b_800D2A64( void );
-extern int  s07b_800D2C4C( void );
-extern int  s07b_800D2CB4( int );
+extern void s03b_boxall_800C9328( void );
+extern void s03b_boxall_800C93AC( int );
+extern void s03b_boxall_800C9404( void );
+extern int  s03b_boxall_800C95EC( void );
+extern int  s03b_boxall_800C9654( int );
 
-void s07b_800D8564( Work *work, int time );
-void s07b_800D88E4( Work *work, int time );
-void s07b_800D8B8C( Work *work, int time );
+static void s07b_800D8564( Work *work, int time );
+static void s07b_800D88E4( Work *work, int time );
+static void s07b_800D8B8C( Work *work, int time );
 
 static inline void SetMode( Work *work, void *action )
 {
@@ -734,7 +734,7 @@ static int CheckCutsceneSkip( Work *work )
     pad = &GV_PadData[ 2 ];
     if ( ( pad[ 0 ].press | pad[ 1 ].press ) & PAD_CROSS )
     {
-        s07b_800D2988();
+        s03b_boxall_800C9328();
         CloseCinemaScreen();
         GCL_ExecProc( work->field_8B4[ 0 ], NULL );
         return 1;
@@ -775,7 +775,7 @@ static void s07b_800D7ED8( Work *work, int index )
     GCL_ExecProc( work->field_8B4[ s07b_dword_800C3698[ index ] ], NULL );
 }
 
-void s07b_800D7F6C( Work *work )
+static void s07b_800D7F6C( Work *work )
 {
     ACTION *list;
     int time, action;
@@ -799,7 +799,7 @@ void s07b_800D7F6C( Work *work )
 
         if ( time == 0 && work->field_810 >= 0 )
         {
-            s07b_800D2A0C( work->field_810 );
+            s03b_boxall_800C93AC( work->field_810 );
         }
 
         if ( time == list->time )
@@ -824,7 +824,7 @@ void s07b_800D7F6C( Work *work )
     }
 }
 
-void s07b_800D80B8( Work *work, int time )
+static void s07b_800D80B8( Work *work, int time )
 {
     int var_s1, index;
 
@@ -839,7 +839,7 @@ void s07b_800D80B8( Work *work, int time )
     switch ( work->field_802 )
     {
     case 0:
-        if ( !s07b_800D2C4C() ) break;
+        if ( !s03b_boxall_800C95EC() ) break;
         printf( "enemy watch %d\n", GM_EnemyWatchCount );
         index = 8;
 
@@ -855,7 +855,7 @@ void s07b_800D80B8( Work *work, int time )
         work->field_802++;
         break;
     case 1:
-        if ( !s07b_800D2C4C() ) break;
+        if ( !s03b_boxall_800C95EC() ) break;
         printf( "continue count %d\n", GM_ContinueCount );
 
         if ( GM_ContinueCount > 8 )
@@ -873,7 +873,7 @@ void s07b_800D80B8( Work *work, int time )
         work->field_802++;
         break;
     case 2:
-        if ( !s07b_800D2C4C() ) break;
+        if ( !s03b_boxall_800C95EC() ) break;
 
         printf( "trap out count %d\n", GM_PitfallDeathCount );
 
@@ -918,13 +918,13 @@ void s07b_800D80B8( Work *work, int time )
         work->field_802++;
         break;
     case 3:
-        if ( !s07b_800D2C4C() ) break;
+        if ( !s03b_boxall_800C95EC() ) break;
         SetMode( work, s07b_800D8564 );
         break;
     }
 }
 
-void s07b_800D8338( char *name, char *arg1, char *arg2 )
+static void s07b_800D8338( char *name, char *arg1, char *arg2 )
 {
     SAVEFILE *save;
     int i, j, match, mask, bit;
@@ -962,7 +962,7 @@ void s07b_800D8338( char *name, char *arg1, char *arg2 )
     }
 }
 
-int s07b_800D8410( MEMCARD **cards )
+static int s07b_800D8410( MEMCARD **cards )
 {
     char sp10[ 16 ];
     char sp20[ 110 ];
@@ -1002,7 +1002,7 @@ int s07b_800D8410( MEMCARD **cards )
     return mask;
 }
 
-void s07b_800D8564( Work *work, int time )
+static void s07b_800D8564( Work *work, int time )
 {
     MEMCARD *cards[ 2 ];
     int i;
@@ -1034,7 +1034,7 @@ void s07b_800D8564( Work *work, int time )
 
     if ( work->field_806 == 0 )
     {
-        if ( s07b_800D2CB4( work->field_814[ 15 ] ) )
+        if ( s03b_boxall_800C9654( work->field_814[ 15 ] ) )
         {
             work->field_804 = 0;
             if ( work->field_800 != 0 )
@@ -1062,7 +1062,7 @@ void s07b_800D8564( Work *work, int time )
             work->field_804 = 1;
             work->flag |= 0x2;
         }
-        else if ( s07b_800D2C4C() )
+        else if ( s03b_boxall_800C95EC() )
         {
             work->field_800 = 1;
             work->field_804--;
@@ -1124,7 +1124,7 @@ void s07b_800D8564( Work *work, int time )
             work->field_804 = 1;
         }
     }
-    else if ( s07b_800D2C4C() )
+    else if ( s03b_boxall_800C95EC() )
     {
         work->field_804--;
     }
@@ -1135,13 +1135,13 @@ void s07b_800D8564( Work *work, int time )
         s07b_800D7ED8( work, 27 );
         work->field_804 = 1;
     }
-    else if ( work->field_802 == 18 && ( work->field_804 == 0 || s07b_800D2C4C() ) )
+    else if ( work->field_802 == 18 && ( work->field_804 == 0 || s03b_boxall_800C95EC() ) )
     {
         SetMode( work, s07b_800D88E4 );
     }
 }
 
-void s07b_800D88E4( Work *work, int time )
+static void s07b_800D88E4( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -1164,14 +1164,14 @@ void s07b_800D88E4( Work *work, int time )
     switch ( work->field_800 )
     {
     case 0:
-        if ( s07b_800D2C4C() )
+        if ( s03b_boxall_800C95EC() )
         {
             s07b_800D7ED8( work, 33 );
             work->field_800++;
         }
         break;
     case 1:
-        if ( s07b_800D2CB4( work->field_814[ 33 ] ) )
+        if ( s03b_boxall_800C9654( work->field_814[ 33 ] ) )
         {
             work->field_800++;
         }
@@ -1182,12 +1182,12 @@ void s07b_800D88E4( Work *work, int time )
             s07b_800D7ED8( work, 36 );
         }
 
-        if ( s07b_800D2CB4( work->field_814[ 36 ] ) )
+        if ( s03b_boxall_800C9654( work->field_814[ 36 ] ) )
         {
             s07b_800D7ED8( work, 37 );
         }
 
-        if ( s07b_800D2CB4( work->field_814[ 37 ] ) )
+        if ( s03b_boxall_800C9654( work->field_814[ 37 ] ) )
         {
             s07b_800D7ED8( work, 38 );
         }
@@ -1233,7 +1233,7 @@ void s07b_800D88E4( Work *work, int time )
         }
         break;
     case 3:
-        if ( s07b_800D2CB4( work->field_814[ 34 ] ) )
+        if ( s03b_boxall_800C9654( work->field_814[ 34 ] ) )
         {
             SetMode( work, s07b_800D8B8C );
         }
@@ -1241,7 +1241,7 @@ void s07b_800D88E4( Work *work, int time )
     }
 }
 
-void s07b_800D8B8C( Work *work, int time )
+static void s07b_800D8B8C( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -1263,7 +1263,7 @@ void s07b_800D8B8C( Work *work, int time )
         GCL_ExecProc( work->field_8B4[ 6 ], NULL );
     }
 
-    if ( s07b_800D2C4C() )
+    if ( s03b_boxall_800C95EC() )
     {
         CloseCinemaScreen();
         if ( work->blur ) GV_DestroyOtherActor( work->blur );
@@ -1271,7 +1271,7 @@ void s07b_800D8B8C( Work *work, int time )
     }
 }
 
-void s07b_800D8C60( Work *work )
+static void s07b_800D8C60( Work *work )
 {
     int frame, se_id;
 
@@ -1293,12 +1293,12 @@ void s07b_800D8C60( Work *work )
     if ( se_id != 0 ) GM_SeSetMode( &work->control.mov, se_id, GM_SEMODE_BOMB );
 }
 
-void s07b_800D8D20( Work *work )
+static void s07b_800D8D20( Work *work )
 {
     int ( *action )( Work *, int );
     int time;
 
-    s07b_800D2A64();
+    s03b_boxall_800C9404();
     CheckCinemaTimeout();
 
     sna_act_helper2_helper2_80033054( work->control.name, &work->adjust[ 6 ] );
