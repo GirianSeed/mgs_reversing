@@ -2555,8 +2555,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\chara\psyco\sonic.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay
     include "{{OBJ_DIR}}\game\vox.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\chara\psyco\psyobj.obj", overlay
-
+    include "{{OBJ_DIR}}\chara\psyco\psyobj.obj", overlay
     include "{{OBJ_DIR}}\chara\psyco\chair.obj", overlay
     include "{{OBJ_DIR}}\chara\psyco\pot.obj", overlay
     include "{{OBJ_DIR}}\chara\psyco\statue.obj", overlay

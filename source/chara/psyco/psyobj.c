@@ -1,7 +1,9 @@
-#include "chara/psyco/psyco.h"
+#include "psyco.h"
 
+#include "anime/animconv/anime.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "okajima/spark.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,6 +36,10 @@ static int psyobj_count = 0;
 static int target_vital = 36;
 
 static PSYOBJ objlist[ 32 ];
+
+/*---------------------------------------------------------------------------*/
+
+extern void AN_Unknown_800CCA40( SVECTOR *pos );
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,7 +76,14 @@ void PSYOBJ_Init( void )
 
 /*---------------------------------------------------------------------------*/
 
-int GetRaise( DG_MDL *mdl )
+static inline char GetFlag( int flag, int bit )
+{
+    return !!( flag & ( 1 << bit ) );
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int GetRaise( DG_MDL *mdl )
 {
     int raise;
 
@@ -83,7 +96,7 @@ int GetRaise( DG_MDL *mdl )
     return raise;
 }
 
-int s07b_800D2E14( Work *work )
+static int s07b_800D2E14( Work *work )
 {
     DG_OBJS *objs;
     DG_OBJ *obj;
@@ -126,7 +139,7 @@ int s07b_800D2E14( Work *work )
     return 0;
 }
 
-void s07b_800D2F2C( Work *work )
+static void s07b_800D2F2C( Work *work )
 {
     SVECTOR tmp;
     TARGET *trg;
@@ -159,10 +172,71 @@ void s07b_800D2F2C( Work *work )
     work->target->class |= TARGET_POWER;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D30B4.s")
-void s07b_800D30B4( Work *work );
+static void s07b_800D30B4( Work *work )
+{
+    MATRIX mat;
+    SVECTOR pos;
+    GCL_ARGS arg;
+    long data[ 1 ];
+    TARGET *trg;
+    int a_mode;
 
-void s07b_800D3308( Work *work )
+    trg = work->target;
+
+    work->obj->flag &= ~0x40;
+    if ( !( work->obj->flag & 0x20 ) )
+    {
+        trg->damaged = 0;
+        trg->class &= ~TARGET_POWER;
+        return;
+    }
+
+    trg->class |= TARGET_POWER;
+    if ( !( trg->damaged & TARGET_POWER ) ) return;
+    trg->damaged &= ~TARGET_POWER;
+    if ( GetFlag( work->obj->flag, 15 ) ) trg->vital += trg->damage;
+
+    a_mode = trg->a_mode;
+    trg->damage = 0;
+    trg->a_mode = 0;
+
+    if ( a_mode == 1 )
+    {
+        GM_SeSet( &work->control.mov, 40 );
+        NewSpark( &work->body.objs->world, 0 );
+        GM_SeSet( &work->control.mov, 39 );
+        if ( !( GetFlag( work->obj->flag, 15 ) ) ) trg->vital--;
+    }
+    else if ( a_mode == 2 )
+    {
+        if ( !( GetFlag( work->obj->flag, 15 ) ) ) trg->vital -= 255;
+    }
+
+    work->obj->flag |= 0x40;
+    
+    if ( trg->vital > 0 || ( GetFlag( work->obj->flag, 15 ) ) ) return;
+            
+    GM_SeSet( &work->control.mov, 184 );
+
+    work->obj->flag |= 0x8100;
+    s07b_800D2E14( work );
+            
+    ReadRotMatrix( &mat );
+    pos = work->control.mov;
+    pos.vy += 500;
+    NewAnime_8005E090( &pos );
+    AN_Unknown_800CCA40( &pos );
+
+    if ( work->proc_id >= 0 )
+    {
+        arg.argc = 1;
+        arg.argv = data;
+        data[ 0 ] = GetFlag( work->obj->flag, 8 );
+        GCL_ExecProc( work->proc_id, &arg );
+    }
+}
+
+static void s07b_800D3308( Work *work )
 {
     MATRIX world;
     int levels[ 2 ];
