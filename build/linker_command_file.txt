@@ -1653,7 +1653,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\chara\torture\torture.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\bed.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\revolver.obj", overlay
-    include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
+    include "{{OBJ_DIR}}\game\vox.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\boxall.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\info.obj", overlay
@@ -1814,7 +1814,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\jfamas.obj", overlay
-    include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
+    include "{{OBJ_DIR}}\game\vox.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\otacom.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\ninja.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay
@@ -1858,7 +1858,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11d\chara\hind\hind.obj", overlay
     include "{{OBJ_DIR}}\chara\hind\hind_bul.obj", overlay
     include "{{OBJ_DIR}}\chara\rope\dsmoke2.obj", overlay
-    include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
+    include "{{OBJ_DIR}}\game\vox.obj", overlay
     include "{{OBJ_DIR}}\chara\rope\landing.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\info.obj", overlay
@@ -2554,7 +2554,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\chara\psyco\sonic.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay
-    include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
+    include "{{OBJ_DIR}}\game\vox.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\chara\psyco\psyobj.obj", overlay
 
     include "{{OBJ_DIR}}\chara\psyco\chair.obj", overlay
