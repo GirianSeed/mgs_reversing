@@ -14,8 +14,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern unsigned short GM_ItemTypes[];
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct _Work

@@ -12,7 +12,6 @@
 
 HITTABLE GM_C4Datas[ C4_COUNT ];
 
-extern unsigned short GM_ItemTypes[];
 extern BLAST_DATA blast_data_8009F4B8[ 8 ];
 
 /*---------------------------------------------------------------------------*/

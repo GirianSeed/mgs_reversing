@@ -1018,7 +1018,7 @@ void d18a_snake18_800CCB0C(TARGET *target)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCB50.s")
-extern unsigned short GM_WeaponTypes[];
+
 extern Snake18Type    d18a_dword_800C36C8[];
 
 typedef struct WeaponCreateEntry

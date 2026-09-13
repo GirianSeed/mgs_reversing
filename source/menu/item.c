@@ -11,8 +11,6 @@ static PANEL_TEXTURE panel_tex[ MENU_ITEM_COUNT ];
 int SECTION(".sbss") prev_current;
 int SECTION(".sbss") dword_800ABAD4;
 
-extern short GM_WeaponTypes[];
-extern short GM_ItemTypes[];
 extern int   dword_8009F46C;
 
 // Also see dword_8009E5CC.
