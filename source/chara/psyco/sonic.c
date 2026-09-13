@@ -2,6 +2,8 @@
 #include "game/game.h"
 #include "okajima/plasma.h"
 
+/*---------------------------------------------------------------------------*/
+
 #define BODY_DATA   GV_StrCode( "psysonic" )
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
@@ -24,10 +26,16 @@ typedef struct _Work {
     void          *kogaku;
 } Work;
 
-extern int *s07b_dword_800E5BD8;
-extern int  s07b_dword_800E5BE8; // psyco_vital
+/*---------------------------------------------------------------------------*/
 
+static int psyco_vital;
+
+/*---------------------------------------------------------------------------*/
+
+extern int *s07b_dword_800E5BD8;
 void AN_Unknown_800CCA40( SVECTOR *pos );
+
+/*---------------------------------------------------------------------------*/
 
 static void FindTarget( Work *work )
 {
@@ -165,7 +173,7 @@ static void InitTarget( Work *work )
 
     t = &work->target;
     GM_SetTarget( t, TARGET_FLAG, ENEMY_SIDE, &size );
-    GM_SetPowerTarget( t, POWER_ONCE, 2, s07b_dword_800E5BE8, 0, &DG_ZeroVector );
+    GM_SetPowerTarget( t, POWER_ONCE, 2, psyco_vital, 0, &DG_ZeroVector );
 }
 
 static int GetResources( Work *work, MATRIX *world, int dir, int speed )
@@ -215,7 +223,7 @@ void *NewPsychoSonic( MATRIX *world, int dir, int speed, int vital )
             GV_DestroyActor( work );
             return NULL;
         }
-        s07b_dword_800E5BE8 = vital;
+        psyco_vital = vital;
     }
     return (void *)work;
 }

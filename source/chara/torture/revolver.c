@@ -109,16 +109,6 @@ const char *s03b_dword_800C3334[] =
     "end"
 };
 
-// Those functions are not actually in boxall, info
-// those are some helper functions (not sure if part of revolver.c)
-int  s03b_boxall_800C9328(void);
-int  s03b_boxall_800C93AC(int arg0);
-int  s03b_boxall_800C95EC(void);
-int  s03b_boxall_800C95FC(void);
-int  s03b_boxall_800C961C(int);
-int  s03b_boxall_800C9654(int);
-int  s03b_boxall_800C968C(void);
-
 void s03b_800CA868(void);
 
 int Revolver_800C8710(Work *work, int arg1);
@@ -224,7 +214,7 @@ int s03b_revolver_800C7384(Work *work, int index)
     name = GV_StrCode(s03b_dword_800C3334[index]);
     work->field_970 = GV_GetCache(GV_CacheID(name, 'l'));
 
-    s03b_boxall_800C93AC(work->field_8D0[entry]);
+    GM_VoxQueue(work->field_8D0[entry]);
     work->field_93C = work->field_8D0[entry];
 
     if (work->field_9C.action != 0)
@@ -277,12 +267,12 @@ int s03b_revolver_800C742C(Work *work, int arg1, int arg2, int arg3)
     if (arg1 == arg3 && arg2 >= 0)
     {
         printf("voice %d\n", work->field_8D0[arg2]);
-        s03b_boxall_800C93AC(work->field_8D0[arg2]);
+        GM_VoxQueue(work->field_8D0[arg2]);
     }
 
     if (arg2 >= 0)
     {
-        if (!s03b_boxall_800C9654(work->field_8D0[arg2]))
+        if (!GM_VoxCodeEnd(work->field_8D0[arg2]))
         {
             return 0;
         }
@@ -362,7 +352,7 @@ void s03b_revolver_800C7574(Work *work, int arg1)
             GCL_ExecProc(work->field_974[11], 0);
         }
 
-        if (s03b_boxall_800C961C(work->field_93C))
+        if (GM_VoxCodeStart(work->field_93C))
         {
             GCL_ExecProc(work->field_974[0], 0);
         }
@@ -372,21 +362,21 @@ void s03b_revolver_800C7574(Work *work, int arg1)
         goto check;
 
     case 3:
-        if (s03b_boxall_800C961C(work->field_93C))
+        if (GM_VoxCodeStart(work->field_93C))
         {
             GCL_ExecProc(work->field_974[1], 0);
         }
         goto check;
 
     case 4:
-        if (s03b_boxall_800C961C(work->field_93C))
+        if (GM_VoxCodeStart(work->field_93C))
         {
             GCL_ExecProc(work->field_974[9], 0);
         }
         goto check;
 
     case 5:
-        if (s03b_boxall_800C961C(work->field_93C))
+        if (GM_VoxCodeStart(work->field_93C))
         {
             GCL_ExecProc(work->field_974[10], 0);
         }
@@ -550,7 +540,7 @@ void s03b_revolver_800C7958(Work *work, int arg1)
         goto check;
 
     case 2:
-        if (s03b_boxall_800C961C(work->field_93C))
+        if (GM_VoxCodeStart(work->field_93C))
         {
             GCL_ExecProc(work->field_974[3], 0);
 
@@ -570,7 +560,7 @@ void s03b_revolver_800C7958(Work *work, int arg1)
             index = 4;
         }
 
-        if (s03b_boxall_800C961C(work->field_93C))
+        if (GM_VoxCodeStart(work->field_93C))
         {
             GCL_ExecProc(work->field_974[index], 0);
 
@@ -724,7 +714,7 @@ void s03b_revolver_800C7E88(Work *work, int arg1)
 
     if ((GV_PadData[2].press & PAD_CROSS) != 0)
     {
-        s03b_boxall_800C9328();
+        GM_VoxInit();
         GM_GameStatus |= STATE_PADRELEASE;
 
         if (work->field_8C8 > -1)
@@ -799,7 +789,7 @@ void s03b_revolver_800C7E88(Work *work, int arg1)
         break;
 
     case 2:
-        if (s03b_boxall_800C961C(work->field_93C))
+        if (GM_VoxCodeStart(work->field_93C))
         {
             GCL_ExecProc(work->field_974[work->field_940 + 6], 0);
         }
@@ -975,7 +965,7 @@ void Revolver_800C8488(Work *work, int mode)
     if (mode == 0)
     {
         NewFadeInOut(FADEIO_MODE_TOBLACK, 28);
-        s03b_boxall_800C9328();
+        GM_VoxInit();
         CloseCinemaScreen();
     }
 
@@ -1019,7 +1009,7 @@ void s03b_revolver_800C8600(Work *work)
     int uVar2;
 
     uVar2 = work->field_94C;
-    iVar1 = s03b_boxall_800C968C();
+    iVar1 = GM_VoxStatus();
 
     if (iVar1 == -1 || iVar1 == 2)
     {
@@ -1219,7 +1209,7 @@ void s03b_revolver_800C89C8(Work *work)
             break;
 
         case HASH_VOICE:
-            s03b_boxall_800C93AC(work->field_8D0[action]);
+            GM_VoxQueue(work->field_8D0[action]);
             break;
 
         case HASH_TURN:
@@ -1249,12 +1239,12 @@ void Revolver_800C8B5C(Work *work)
         work->field_948 |= 4;
     }
 
-    if ((work->field_948 & 0x10) && s03b_boxall_800C95EC())
+    if ((work->field_948 & 0x10) && GM_VoxEnd())
     {
         work->field_948 = (work->field_948 | 0x2) & ~0x10;
     }
 
-    if (s03b_boxall_800C95FC())
+    if (GM_VoxPlaying())
     {
         GM_ConfigMotionAdjust(&work->field_9C, &work->field_768);
         work->field_948 |= 0x10;
@@ -1313,7 +1303,7 @@ void RevolverDie_800C8D8C(Work *work)
     GV_DestroyOtherActor(work->shadow);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->field_9C);
-    s03b_boxall_800C9328();
+    GM_VoxInit();
 }
 
 int s03b_revolver_800C8DD0(HZD_PAT *route, int *n_out, SVECTOR *out)

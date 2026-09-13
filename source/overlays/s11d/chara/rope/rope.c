@@ -119,7 +119,6 @@ extern int s11d_dword_800D1F84;
 extern const char s11d_aTosi_800D1D5C[]; // "to_s11i"
 
 extern void TortureInfoKill(void);
-extern void s03b_boxall_800C9328(void);
 
 extern void s11d_rope_800C44A4(Work *work);
 extern void s11d_rope_800C44F0(Work *work);
@@ -1013,7 +1012,7 @@ void s11d_rope_800C868C(Work *work)
         GM_PlayerBody = NULL;
     }
 
-    s03b_boxall_800C9328();
+    GM_VoxInit();
 }
 
 int s11d_rope_800C879C(Work *work)

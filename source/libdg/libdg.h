@@ -464,10 +464,6 @@ void DG_PointCheck( SVECTOR *svector, int n_points );
 int  DG_PointCheckOne( DVECTOR *line );
 
 /* screen.c */
-// void DG_ScreenModelsSingle( DG_OBJS *objs, int n_obj );
-// void DG_ScreenModels( DG_OBJS *objs, int n_obj );
-// void DG_ApplyMovs( DG_OBJS *objs, int n_obj );
-// void DG_ApplyRots( DG_OBJS *objs, int n_obj );
 void DG_ScreenChanl( DG_CHANL *chanl, int idx );
 
 /* shade.c */
@@ -535,6 +531,10 @@ static inline void DG_SetPacketTexture4( POLY_FT4 *packs, DG_TEX *tex )
     packs->tpage = tex->tpage ;
     packs->clut = tex->clut ;
 }
+
+/*---------------------------------------------------------------------------*/
+
+#define DG_COPY_VEC( a, b ) ( (a)->vx = (b)->vx, (a)->vy = (b)->vy, (a)->vz = (b)->vz )
 
 /*---------------------------------------------------------------------------*/
 

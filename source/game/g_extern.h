@@ -203,5 +203,18 @@ void    GM_FreeHomingTarget(HOMING *hom);
 void    GM_GetHomingTarget(MATRIX *world, int ang, int *yaw, int *pitch, int map);
 void    GM_GetHomingTarget2(MATRIX *world, int ang, int *yaw, int *pitch, int map, int max_dist, int max_ang);
 
+/* vox.c */
+void GM_VoxInit(void);
+int  GM_VoxQueue(int code);
+void GM_VoxQueueDelay(int code, int delay);
+void GM_VoxTick(void);
+int  GM_VoxCurrent(void);
+int  GM_VoxEnd(void);
+int  GM_VoxPlaying(void);
+int  GM_VoxPlayTime(void);
+int  GM_VoxCodeStart(int code);
+int  GM_VoxCodeEnd(int code);
+int  GM_VoxStatus(void);
+
 /*---------------------------------------------------------------------------*/
 #endif // __MGS_G_EXTERN_H__
