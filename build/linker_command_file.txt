@@ -2389,12 +2389,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\stage\s07b.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
     include "{{OBJ_DIR}}\game\second.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s07b\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\s07b\chara\meryl07b\meryl07b.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\chara\meryl07b\desert.obj", overlay
+    include "{{OBJ_DIR}}\chara\meryl07b\desert.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\chara\psyco\psyco.obj", overlay
     include "{{OBJ_DIR}}\chara\psyco\sonic.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay

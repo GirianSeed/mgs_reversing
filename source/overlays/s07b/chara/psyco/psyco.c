@@ -134,6 +134,8 @@ const char s07b_dword_800E5078[] = "hideo_b";
 const char s07b_dword_800E5080[] = "hideo_s";
 const char s07b_dword_800E5088[] = "hideo";
 
+SVECTOR SECTION(".bss") s07b_dword_800E5BE0;
+
 /*---------------------------------------------------------------------------*/
 
 extern GM_CameraSystemWork GM_Camera;
