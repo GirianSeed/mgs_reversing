@@ -6,8 +6,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct _Work

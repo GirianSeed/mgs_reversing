@@ -103,9 +103,6 @@ typedef struct _Work
 #define EXEC_LEVEL  GV_ACTOR_USER
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_POWER | TARGET_SEEK )
 
-extern GM_CameraSystemWork GM_Camera;
-extern GM_SnakeCameraWork GM_SnakeCamera;
-
 static u_char s11d_dword_800C32B4[] = { 0x7F, 0x01, 0x00, 0x00 };
 static u_char s11d_dword_800C32B8[] = { 0xD2, 0x02, 0x00, 0x00 };
 static SVECTOR s11d_dword_800C32BC = { 0, 0, 100 };

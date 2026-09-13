@@ -11,8 +11,6 @@
 #include "chara/snake/shadow.h" // for NewShadow
 #include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
-extern GM_SnakeCameraWork GM_SnakeCamera;
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL      GV_ACTOR_USER

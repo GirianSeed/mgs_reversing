@@ -131,8 +131,6 @@ SVECTOR s12c_dword_800C3440[2] = {{250, 0, 500}, {-250, 0, 500}};
 SVECTOR s12c_dword_800C3450 = {0, 0, 100};
 SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 
-extern GM_CameraSystemWork GM_Camera;
-
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void  AN_Breath(MATRIX *world);
 void  AN_Breath_2(MATRIX *world);

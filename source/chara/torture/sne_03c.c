@@ -41,8 +41,6 @@ typedef struct Snake03c2Work
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-
 void Snake03c1Act_800CD698(Snake03c1Work *work)
 {
     SVECTOR  svec;

@@ -76,12 +76,10 @@ void Takabe_RefreshObjectPacks(DG_OBJS *objs);
 void Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
 void Takabe_FreeDuplicateMemory();
 
-extern GM_CameraSystemWork       GM_Camera;
 extern int             bakudan_count_8009F42C;
 extern HITTABLE        GM_C4Datas[C4_COUNT];
 extern HITTABLE        GM_ClayDatas[8];
 extern int             counter_8009F448;
-extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {

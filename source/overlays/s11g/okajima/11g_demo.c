@@ -48,9 +48,6 @@ typedef struct _Work
 
 VECTOR body_scale = {4096, 4096, 4096};
 
-extern GM_CameraSystemWork        GM_Camera;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 void  NewAnime_8005E774(SVECTOR *pos);
 void *NewBlastLine(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4);
 

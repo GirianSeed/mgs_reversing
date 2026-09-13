@@ -12,8 +12,6 @@
 #include "okajima/bullet.h"
 #include "strcode.h"
 
-extern GM_CameraSystemWork GM_Camera;
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL      GV_ACTOR_AFTER

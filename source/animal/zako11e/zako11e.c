@@ -21,8 +21,6 @@ extern SVECTOR       ENEMY_TOUCH_SIZE;
 extern SVECTOR       ENEMY_TOUCH_FORCE;
 extern SVECTOR       COM_NO_POINT;
 extern int           COM_EYE_LENGTH;
-
-extern GM_CameraSystemWork      GM_Camera;
 */
 
 extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
@@ -63,8 +61,6 @@ void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
         obj++;
     }
 }
-
-extern GM_CameraSystemWork GM_Camera;
 
 void s11e_zako11e_800D354C( ZakoWork *work )
 {

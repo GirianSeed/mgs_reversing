@@ -12,8 +12,6 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-extern GM_CameraSystemWork       GM_Camera;
-extern GM_SnakeCameraWork GM_SnakeCamera;
 extern int             dword_8009F470;
 extern DG_CHANL        DG_Chanls[3];
 

@@ -8,8 +8,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_USER

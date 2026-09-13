@@ -8,9 +8,7 @@
 #include "thing/sight.h"
 #include "chara/snake/sna_init.h"
 
-extern GM_SnakeCameraWork  GM_SnakeCamera;
 extern int              dword_8009F604;
-extern GM_CameraSystemWork        GM_Camera;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 

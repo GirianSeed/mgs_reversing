@@ -45,12 +45,10 @@ short SECTION(".bss") snake_mag_size_800BDCB8;
 short SECTION(".bss") snake_weapon_idx_800BDCBA;
 short SECTION(".bss") snake_weapon_max_ammo_800BDCBC;
 
-extern GM_CameraSystemWork          GM_Camera;
 extern void              *dword_8009EEA4[];
 extern int                bakudan_count_8009F42C;
 extern int                counter_8009F448;
 extern int                tabako_dword_8009F2C0;
-extern GM_SnakeCameraWork    GM_SnakeCamera;
 extern CONTROL        *tenage_ctrls_800BDD30[16];
 extern HITTABLE           GM_C4Datas[C4_COUNT];
 extern HITTABLE           GM_ClayDatas[8];

@@ -12,7 +12,6 @@
 
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
-extern GM_SnakeCameraWork  GM_SnakeCamera;
 
 extern void NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
 

@@ -9,9 +9,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-extern GM_CameraSystemWork GM_Camera;
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-
 extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
 /*---------------------------------------------------------------------------*/

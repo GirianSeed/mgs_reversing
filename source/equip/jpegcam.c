@@ -26,9 +26,6 @@ static int SECTION(".bss")      dword_800BDCD0;
 char SECTION(".bss")            gap_800BDCD4[ 4 ]; // TODO
 static TMat8x8B SECTION(".bss") gJpegcamMatrix2_800BDCD8;
 
-extern GM_CameraSystemWork GM_Camera;
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-
 extern int   dword_8009F604;
 extern short dword_800ABBD4;
 extern short dword_800ABBDC;

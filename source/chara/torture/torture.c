@@ -75,9 +75,6 @@ typedef struct _Work
     GV_ACT        *f900;
 } Work;
 
-extern GM_SnakeCameraWork GM_SnakeCamera;
-extern GM_CameraSystemWork       GM_Camera;
-
 // unused
 int s03b_dword_800C3290 = 0x027F0200;
 int s03b_dword_800C3294 = 0x00000000;

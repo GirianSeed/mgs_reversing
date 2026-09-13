@@ -55,9 +55,6 @@ SVECTOR SECTION(".bss") rasen_el_800D2CAC;
 SVECTOR SECTION(".bss") rasen_el_800D2CB4;
 int SECTION(".bss") rasen_el_800D2CBC;
 
-extern GM_SnakeCameraWork GM_SnakeCamera;
-extern GM_CameraSystemWork       GM_Camera;
-
 extern int            rasen_800C3404;
 extern int            rasen_800C3408;
 extern unsigned short rasen_el_800C342C[];

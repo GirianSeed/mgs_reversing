@@ -9,8 +9,6 @@
 
 extern int              dword_8009F46C[];
 extern SVECTOR          svector_8009F478;
-extern GM_CameraSystemWork        GM_Camera;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 static RECT wolf2_prim_rect = {0, 0, 2, 2};
 

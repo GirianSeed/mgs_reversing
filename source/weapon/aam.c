@@ -12,7 +12,6 @@
 #include "bullet/amissile.h"
 
 extern int amissile_alive_8009F490;
-extern GM_SnakeCameraWork GM_SnakeCamera;
 extern TARGET *target_800BDF00;
 extern int dword_800AB8A4;
 

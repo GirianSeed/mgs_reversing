@@ -36,8 +36,6 @@ const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
 const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
 const char aWatcherc_800DFCEC[] = "watcher.c";
 
-extern GM_CameraSystemWork      GM_Camera;
-
 /*  ルート変更フラグチェック
     指定フラグが立てば次のルートへ変更
     ここではコマンダーに変更ルートをセットする

@@ -10,8 +10,6 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-extern int  GM_CameraShakeOffset;
-
 /*----------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_USER

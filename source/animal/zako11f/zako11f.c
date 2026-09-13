@@ -31,8 +31,6 @@ void s11i_zako11f_800C86F8( DG_OBJS* objs, DG_DEF* def )
     }
 }
 
-extern GM_CameraSystemWork GM_Camera;
-
 void s11i_zako11f_800C8774( Zako11FWork *work )
 {
     if ( work->visible )

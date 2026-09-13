@@ -105,9 +105,6 @@ SVECTOR s03c_dword_800C32E4 = {0, 0, 3500, 0};
 SVECTOR s03c_dword_800C32EC = {0, 0, 300};
 SVECTOR target_size = {300, 750, 300};
 
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-extern GM_CameraSystemWork        GM_Camera;
-
 extern int s03c_dword_800C33D8;
 
 void NavigateSetTargetPlayer(NAVIGATE *pAutoMove);

@@ -4,7 +4,6 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 
-extern GM_CameraSystemWork GM_Camera;
 extern int       dword_8009F46C;
 
 /*---------------------------------------------------------------------------*/

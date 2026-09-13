@@ -58,8 +58,6 @@ const char s00a_aClose_800E0AF4[] = "close";
 const char s00a_aSeon_800E0AFC[] = "se_on";
 const char s00a_aSeoff_800E0B04[] = "se_off";
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 #define EXEC_LEVEL GV_ACTOR_PREV
 
 int s00a_pato_lmp_800D5E30( unsigned short name, int hash_count, unsigned short* hashes )

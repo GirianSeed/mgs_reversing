@@ -184,10 +184,6 @@ int     SECTION(".bss") revolver_used_bul;
 
 /*---------------------------------------------------------------------------*/
 
-extern CAMERA GM_CameraList[8];
-
-/*---------------------------------------------------------------------------*/
-
 void NewAnime_8005E574(MATRIX *);
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 

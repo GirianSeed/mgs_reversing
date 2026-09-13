@@ -5,8 +5,6 @@
 #include "libgcl/libgcl.h"
 
 extern DG_CHANL         DG_Chanls[3];
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern GM_CameraSystemWork        GM_Camera;
 extern int              MENU_RadarScale;
 extern int              amissile_alive_8009F490;
 

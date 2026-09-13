@@ -10,9 +10,6 @@
 
 #include "meryl72.h"
 
-extern GM_CameraSystemWork        GM_Camera;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 int       SECTION(".bss") meryl72_800D5274;
 GM_CameraSystemWork SECTION(".bss") meryl72_camera_800D5278;
 int       SECTION(".bss") meryl72_800D52F4;

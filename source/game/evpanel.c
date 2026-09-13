@@ -10,9 +10,6 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-extern GM_CameraSystemWork    GM_Camera;
-extern int          GM_CameraShakeOffset;
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_PREV

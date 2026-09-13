@@ -18,8 +18,6 @@ static int SECTION(".bss") dword_800BDF9C;
 
 int SECTION(".bss") okajima_CHAF_LIFE;
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL      GV_ACTOR_USER
