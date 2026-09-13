@@ -41,8 +41,6 @@ typedef struct _Work
     /* 0x3B98 */ int      f3B98;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_PREV
-
 #define BODY_DATA   GV_StrCode("stn_fr")
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
@@ -645,7 +643,7 @@ void *NewStage11GDemo(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(work, s11g_11g_demo_800CB994, Die, "11g_demo.c");

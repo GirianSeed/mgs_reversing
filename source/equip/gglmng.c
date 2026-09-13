@@ -9,8 +9,6 @@ extern int       dword_8009F46C;
 /*---------------------------------------------------------------------------*/
 // Goggle Manager
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -69,7 +67,7 @@ void *NewGoggleManager(int type)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "gglmng.c");

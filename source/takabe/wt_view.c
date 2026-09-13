@@ -25,8 +25,6 @@ extern void SetPriority(DR_PRIO *p, int pbc, int pbw);
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_PREV2
-
 typedef struct _WaterViewPrims
 {
     DR_TPAGE tpage[4];
@@ -231,7 +229,7 @@ void *NewWaterView(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "wt_view.c");
@@ -253,7 +251,7 @@ void *NewWaterView2(int name, int where, SVECTOR *bounds, CVECTOR *color)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "wt_view.c");

@@ -14,8 +14,6 @@ extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 /*---------------------------------------------------------------------------*/
 // PSG1 Rifle
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define RIFLE_MODEL     GV_StrCode("rifle")
 
 #define SEGMENT_ATR     ( HZD_SEG_NO_PLAYER )
@@ -230,7 +228,7 @@ void *NewRifle(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, in
     Work *work;
     int mag_size, ammo;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, &Act, &Die, "rifle.c");

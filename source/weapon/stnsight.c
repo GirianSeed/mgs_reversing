@@ -52,8 +52,6 @@ extern TARGET          *target_800BDF00;
 /*---------------------------------------------------------------------------*/
 // Stinger Sight
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER2
-
 #define STINGER_SIGHT   GV_StrCode("stinger")
 
 #define COLOR_DARK_CYAN     MAKE_RGB0( 46, 65, 65)
@@ -722,7 +720,7 @@ void *NewStnSight( CONTROL *root_ctrl )
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "stnsight.c");

@@ -14,8 +14,6 @@ extern short            dword_800ABBD4;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER2
-
 #define SCOPE_SIGHT     0x51c8  // GV_StrCode("scope")
 #define SCOPE_MODEL     GV_StrCode("goggles")
 
@@ -837,7 +835,7 @@ void *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if ( work )
     {
         GV_SetNamedActor(&work->actor, Act, Die, "scope.c");

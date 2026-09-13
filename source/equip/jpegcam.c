@@ -34,8 +34,6 @@ extern char memoryCardFileName[]; // = "BISLPM-99999        ";
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
 #define CAMERA_SIGHT    0xeee9  // GV_StrCode("camera")
 #define CAMERA_SIGHT2   0xb3cd  // GV_StrCode("camera_2")
 
@@ -1075,7 +1073,7 @@ void *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "jpegcam.c");

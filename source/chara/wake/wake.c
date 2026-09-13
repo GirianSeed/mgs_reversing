@@ -12,8 +12,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_USER
-
 #define MESG_UNK_7E11   0x7e11
 
 typedef struct _Work
@@ -222,7 +220,7 @@ void *NewWake(int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

@@ -20,8 +20,6 @@ int SECTION(".bss") okajima_CHAF_LIFE;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_USER
-
 #define CHAFF_LIFETIME  300
 
 typedef struct _Work
@@ -335,7 +333,7 @@ void *NewChaffGrd(MATRIX *world)
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
 
     if (work)
     {

@@ -23,8 +23,6 @@ void s12a_wolf2_800CED38(Wolf2Work *work);
 void s12a_wolf2_800D1EBC(Wolf2Work *work);
 void s12a_wolf2_800D2E0C(Wolf2Work *work);
 
-#define EXEC_LEVEL      GV_ACTOR_PREV
-
 #define MOTION_DATA     GV_StrCode("sniper")
 #define BODY_DATA       GV_StrCode("sniper")
 #define BODY_DATA2      GV_StrCode("snp_cold")
@@ -780,7 +778,7 @@ void *NewWolf2(int name, int where)
 {
     Wolf2Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Wolf2Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Wolf2Work));
     if (work)
     {
         GV_SetNamedActor(work, wolf2_Act, wolf2_Die, "wolf2.c");

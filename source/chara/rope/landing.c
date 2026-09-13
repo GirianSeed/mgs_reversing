@@ -13,8 +13,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_USER
-
 #define NUM_JOINT       16
 #define MOTION_DATA     GV_StrCode("sne_11d2")
 #define BODY_MODEL      GV_StrCode("snake")
@@ -334,7 +332,7 @@ void *NewLanding(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, Act, Die, "landing.c");

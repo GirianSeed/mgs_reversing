@@ -10,7 +10,6 @@ extern int dword_8009F604;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 #define CB_BOX_SIGHT    0xe2a9  // GV_StrCode("cb_box")
@@ -144,7 +143,7 @@ static int GetResources(Work *work, OBJECT *parent)
 
 void *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "box.c");

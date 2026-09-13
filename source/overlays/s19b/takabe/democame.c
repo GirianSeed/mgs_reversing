@@ -42,8 +42,6 @@ typedef struct _Work
     char         pad1[0x18];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 void s19b_democame_800DB578(SVECTOR *in, SVECTOR *out, SVECTOR *angle, int *length);
 void s19b_democame_800DB5C4(SVECTOR *out, SVECTOR *in, SVECTOR *angle, int *length);
 
@@ -227,7 +225,7 @@ void *NewDemoCamera(DemocameUnk *unk)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(work, s19b_democame_800DB968, s19b_democame_800DBD38, "democame.c");

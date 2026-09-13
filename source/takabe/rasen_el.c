@@ -74,8 +74,6 @@ void s11c_800CD17C(OBJECT *, int, int);
 
 DG_OBJS * Takabe_MakeElevatorPreshade(int model, DG_LITS *lit);
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 void RasenElAct_800CC454(Work *work)
 {
     SVECTOR   sp10;
@@ -515,7 +513,7 @@ void *NewRasenElevator(int arg0, int arg1)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RasenElAct_800CC454, RasenElDie_800CCAC4, "rasen_el.c");

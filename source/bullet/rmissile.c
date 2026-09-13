@@ -25,8 +25,6 @@ extern int              dword_8009F604;
 /*---------------------------------------------------------------------------*/
 // RC Missile (Nikita)
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define NIKITA_NAME     0x50ae  // GV_StrCode("RCM")
 #define NIKITA_SIGHT    0x15a9  // GV_StrCode("nikita")
 #define NIKITA_MSG      0x15a9  // GV_StrCode("nikita")
@@ -973,7 +971,7 @@ void *NewRMissile(MATRIX *world, int side)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
 
     if (work)
     {
