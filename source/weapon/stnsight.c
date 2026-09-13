@@ -15,7 +15,6 @@
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
-extern unsigned short   DG_ChanlTime[];
 extern TARGET          *target_800BDF00;
 
 /*---------------------------------------------------------------------------*/

@@ -23,8 +23,6 @@ typedef struct {
 extern void SetPriority(DR_PRIO *p, int pbc, int pbw);
 // clang-format on
 
-extern DG_CHANL DG_Chanls[3];
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_PREV2

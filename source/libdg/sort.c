@@ -6,8 +6,6 @@ typedef struct _SCRATCHPAD_UNK {
     int     len;
 } SCRATCHPAD_UNK;
 
-extern unsigned int *DG_DivideBuffer[256];
-
 static inline SCRATCHPAD_UNK * get_scratch(void)
 {
     return (SCRATCHPAD_UNK *)0x1f800000;

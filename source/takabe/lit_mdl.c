@@ -72,8 +72,6 @@ DG_DEF litmdl_dg_def = {
     }
 };
 
-extern DG_CHANL DG_Chanls[3];
-
 void s01a_lit_mdl_800E26EC(Work *work)
 {
     int      scale;

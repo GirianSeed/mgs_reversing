@@ -40,8 +40,6 @@ typedef struct _Work
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
 RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
 
-extern DG_CHANL DG_Chanls[3];
-
 void PLampLookAt_800CC9F4(Work *work, SVECTOR *eye, SVECTOR *center)
 {
     if (work->field_1CC > 0)

@@ -18,8 +18,6 @@ short SECTION(".bss") * s12c_800DAA44;
 short SECTION(".bss") * s12c_800DAA48;
 short SECTION(".bss") * s12c_800DAA4C;
 
-extern unsigned int *DG_DivideBuffer[256];
-
 void s12c_800D497C(int arg0, int arg1)
 {
     short *iter;

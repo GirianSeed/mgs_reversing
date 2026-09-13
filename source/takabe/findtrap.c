@@ -13,7 +13,6 @@
 #include "strcode.h"
 
 extern int             dword_8009F470;
-extern DG_CHANL        DG_Chanls[3];
 
 /*---------------------------------------------------------------------------*/
 

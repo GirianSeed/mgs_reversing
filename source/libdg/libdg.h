@@ -331,6 +331,11 @@ void DG_BoundEnd( void );
 #ifndef __LIBDG_CHANL_C__
 extern short N_ChanlPerfMax;
 extern short DG_EndTime;
+extern short DG_StartTime;
+
+extern u_long *DG_DivideBuffer[ 256 ];
+extern DG_CHANL DG_Chanls[ 3 ];
+extern u_short DG_ChanlTime[ 32 ];
 #endif
 
 void DG_InitChanlSystem( int shift );
